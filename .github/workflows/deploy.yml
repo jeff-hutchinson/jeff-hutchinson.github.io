@@ -1,7 +1,9 @@
 name: Deploy to GitHub Pages
 on:
   push:
-    branches: [main]
+    branches: [main, develop] # Jules can now trigger a build from develop
+  pull_request:
+    branches: [main] # This will run a check whenever Jules opens a PR
   workflow_dispatch:
 permissions:
   contents: read
