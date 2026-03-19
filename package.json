@@ -1,0 +1,28 @@
+{
+  "name": "jeff-hutchinson.github.io",
+  "version": "1.0.0",
+  "description": "Official website for Laurieville Farms.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeff-hutchinson/jeff-hutchinson.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jeff-hutchinson/jeff-hutchinson.github.io/issues"
+  },
+  "homepage": "https://github.com/jeff-hutchinson/jeff-hutchinson.github.io#readme",
+  "dependencies": {
+    "astro": "^6.0.6"
+  }
+}
