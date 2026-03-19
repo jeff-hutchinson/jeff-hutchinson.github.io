@@ -55,9 +55,7 @@
     align-items: center; /* This is the "Magic" for vertical centering */
     gap: 15px;
     text-decoration: none;
-    /* Force the container to be tall enough to dominate the header */
-    height: 100%; 
-    padding: 0.5rem 0; 
+    padding: 0;
   }
   
   .logo img {
@@ -174,7 +172,9 @@
     }
     
     .main-nav {
-      display: block;
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
       position: static;
       box-shadow: none;
       background: none;
