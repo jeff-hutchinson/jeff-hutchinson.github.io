@@ -4,6 +4,7 @@
   <div class="header-container">
     <a href="/" class="logo">
       <img src="/logo.svg" alt="Laurieville Farms" />
+      <span class="site-title">Laurieville&nbsp;Farms</span>
     </a>
     
     <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -15,8 +16,6 @@
     <nav class="main-nav">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/find-us">Find Us</a></li>
         <li class="has-dropdown">
           <button class="dropdown-toggle" aria-expanded="false">
             Products <span class="arrow">▼</span>
@@ -27,6 +26,8 @@
             <li><a href="/products/supplies">Beekeeping Supplies</a></li>
           </ul>
         </li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/find-us">Find Us</a></li>
       </ul>
     </nav>
   </div>
@@ -51,16 +52,33 @@
   
   .logo {
     display: flex;
-    align-items: center;
+    align-items: center; /* This is the "Magic" for vertical centering */
+    gap: 15px;
     text-decoration: none;
+    /* Force the container to be tall enough to dominate the header */
+    height: 100%; 
+    padding: 0.5rem 0; 
   }
   
   .logo img {
     width: auto;
-    height: auto;
-    max-height: 45px;
+    /* Increase this to make the bee "pop" */
+    height: 65px; 
+    max-height: 65px;
   }
-  
+
+  .site-title {
+    color: #f9a825;
+    font-family: serif;
+    font-weight: bold;
+    /* Match the font-size to the logo's presence */
+    font-size: 2.2rem; 
+    line-height: 1; /* Removes extra space above/below letters */
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
   .logo:hover {
     opacity: 0.8;
   }
@@ -109,7 +127,9 @@
   
   .main-nav a,
   .dropdown-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
     padding: 1rem;
     color: var(--color-charcoal);
     font-size: 1.1rem;
@@ -120,6 +140,7 @@
     text-align: left;
     font-family: var(--font-sans);
     cursor: pointer;
+    white-space: nowrap;
   }
   
   .dropdown-menu {
@@ -163,6 +184,7 @@
       display: flex;
       align-items: center;
       gap: 2rem;
+      flex-wrap: nowrap;
     }
     
     .main-nav li {
@@ -199,6 +221,8 @@
   @media (min-width: 1024px) {
     .logo img {
       max-height: 65px;
+    }.site-title {
+      font-size: 3rem; /* Grows to match the 65px logo */
     }
   }
 </style>
