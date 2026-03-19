@@ -16,7 +16,8 @@ jobs:
       - name: Install, build, and upload your site
         uses: withastro/action@v3
         with:
-          # This forces the action to use your package.json script 
+          # This forces the action to use your package.json script
+          node-version: 24
           build-cmd: npm run build
   deploy:
     needs: build
