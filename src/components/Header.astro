@@ -2,7 +2,9 @@
 ---
 <header class="site-header">
   <div class="header-container">
-    <a href="/" class="logo">Laurieville Farms</a>
+    <a href="/" class="logo">
+      <img src="/logo.svg" alt="Laurieville Farms" />
+    </a>
     
     <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
       <span class="bar"></span>
@@ -13,6 +15,8 @@
     <nav class="main-nav">
       <ul>
         <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/find-us">Find Us</a></li>
         <li class="has-dropdown">
           <button class="dropdown-toggle" aria-expanded="false">
             Products <span class="arrow">▼</span>
@@ -46,15 +50,19 @@
   }
   
   .logo {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--color-charcoal);
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .logo img {
+    width: auto;
+    height: auto;
+    max-height: 45px;
   }
   
   .logo:hover {
-    text-decoration: none;
-    color: var(--color-gold);
+    opacity: 0.8;
   }
   
   /* Mobile Menu Styles */
@@ -184,6 +192,13 @@
     .dropdown-menu a:hover {
       background-color: var(--color-gold);
       color: var(--color-cream);
+    }
+  }
+
+  /* Desktop Logo using min-width: 1024px as requested */
+  @media (min-width: 1024px) {
+    .logo img {
+      max-height: 65px;
     }
   }
 </style>
