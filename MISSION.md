@@ -17,3 +17,11 @@ Build a high-performance static site using Astro, optimized for local SEO and fu
 1. Prominent contact: (810) 47-HONEY / info@laurievillefarms.com.
 2. Integration of "Honey Flyer" and "Candle Flyer" marketing copy.
 3. Detailed "Beekeeping Supplies" section highlighting Michigan craftsmanship.
+
+## Branching Strategy
+- **Primary Work Branch:** `develop`
+- **Jules Workflow:** 1. Pull latest from `develop`.
+  2. Create a feature branch (e.g., `feature/header-footer`).
+  3. Submit a Pull Request (PR) to `develop`.
+  4. Once Jeff approves/merges to `develop`, the preview site updates.
+- **Production:** `main` is only for stable, customer-ready releases.
