@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import candleHero from '../../assets/candle.jpg';
+---
+
+<BaseLayout title="Beeswax & Candles - Laurieville Farms">
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="hero-bg-wrapper">
+      <Image src={candleHero} alt="Hand-poured Beeswax Candles" class="hero-img" width={1920} />
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <h1>Artisan Beeswax Candles</h1>
+      <p>Clean-burning, natural light for your home.</p>
+    </div>
+  </section>
+
+  <!-- Educational Content -->
+  <section class="edu-content container">
+    
+    <div class="content-block">
+      <h2>Why Beeswax Outperforms</h2>
+      <p>
+        For centuries, beeswax has been the gold standard for candlemaking, and for good reason. Unlike heavily processed soy or paraffin, pure beeswax requires virtually no chemical processing. When you burn a beeswax candle, you are enjoying the purest and most natural light source available, next to the sun itself. Not only do they emit a warm, golden glow, but they also burn significantly longer and brighter than their synthetic counterparts.
+      </p>
+    </div>
+
+    <div class="content-block">
+      <h2>Clean Air Benefits</h2>
+      <p>
+        Unlike petroleum-based paraffin candles—which emit harmful toxins and black soot when burned—beeswax is a natural, non-toxic fuel. In fact, burning beeswax produces negative ions that can help neutralize pollutants, dust, and allergens in the air, actively purifying your home.
+      </p>
+      <p>
+        At Laurieville Farms, our candles are created with your family's health in mind. We use only <strong>100% cotton wicks</strong>, ensuring a clean and steady burn. You will never find lead, zinc, or artificial fragrances in our candles—just the natural, subtle, sweet scent of honey and blossoms straight from the hive.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- Placeholder for future shop section -->
+  <div class="shop-placeholder container">
+    <!-- Future "Shop Our Collection" section will go here -->
+  </div>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-cream);
+    overflow: hidden;
+    margin-bottom: 4rem;
+  }
+
+  .hero-bg-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(33, 33, 33, 0.5);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+    color: var(--color-gold);
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+
+  .hero-content p {
+    font-size: 1.25rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  }
+
+  .edu-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .content-block {
+    margin-bottom: 4rem;
+  }
+
+  .content-block h2 {
+    color: var(--color-charcoal);
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .highlight-box {
+    background-color: white;
+    padding: 2rem;
+    border-left: 4px solid var(--color-gold);
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  }
+
+  .highlight-box h3 {
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+
+  .highlight-box p {
+    margin-bottom: 1rem;
+  }
+
+  .highlight-box p:last-child {
+    margin-bottom: 0;
+  }
+
+  .shop-placeholder {
+    height: 100px; /* Temporary height */
+    margin-top: 4rem;
+  }
+</style>
