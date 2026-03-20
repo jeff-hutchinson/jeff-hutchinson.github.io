@@ -1,27 +1,230 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-const farmName = "Laurieville Farms";
+import { Image } from 'astro:assets';
+
+// Import images from assets directory for Astro optimization
+import heroImg from '../assets/hero.jpg';
+import honeyImg from '../assets/honey-jar.jpg';
+import candleImg from '../assets/candle.jpg';
+import suppliesImg from '../assets/inner-cover.jpg';
 ---
-<BaseLayout title={farmName}>
+
+<BaseLayout title="Laurieville Farms">
+  <!-- Hero Section -->
   <section class="hero-section">
-    <h1>Welcome to {farmName}</h1>
-    <p>Coming soon: Pure Michigan Honey & Handcrafted Supplies.</p>
+    <div class="hero-bg-wrapper">
+      <Image src={heroImg} alt="Laurieville Farms Farmstead" class="hero-img" width={1920} />
+      <div class="hero-overlay"></div>
+    </div>
+    
+    <div class="hero-content">
+      <h1>Pure Michigan Honey & Handcrafted Supplies.</h1>
+      <p>From our hives in Otter Lake to your home.</p>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section container">
+    <h2 class="section-title">Explore Our Offerings</h2>
+    
+    <!-- 3-Column Grid using Grid/Flexbox for stacking on mobile -->
+    <div class="products-grid">
+      
+      <!-- Card 1 -->
+      <div class="product-card">
+        <div class="card-img-wrapper">
+          <Image src={honeyImg} alt="Honey & Sweets" class="card-img" height={400} />
+        </div>
+        <div class="card-content">
+          <h3>Honey & Sweets</h3>
+          <p>Pure, raw Michigan honey harvested locally from our own apiaries.</p>
+          <a href="/coming-soon" class="btn-primary">View Products</a>
+        </div>
+      </div>
+      
+      <!-- Card 2 -->
+      <div class="product-card">
+        <div class="card-img-wrapper">
+          <Image src={candleImg} alt="Beeswax & Candles" class="card-img" height={400} />
+        </div>
+        <div class="card-content">
+          <h3>Beeswax & Candles</h3>
+          <p>Hand-poured beeswax candles that naturally purify your home's air.</p>
+          <a href="/coming-soon" class="btn-primary">View Products</a>
+        </div>
+      </div>
+      
+      <!-- Card 3 -->
+      <div class="product-card">
+        <div class="card-img-wrapper">
+          <Image src={suppliesImg} alt="Beekeeping Supplies" class="card-img" height={400} />
+        </div>
+        <div class="card-content">
+          <h3>Beekeeping Supplies</h3>
+          <p>Handcrafted woodenware and supplies built for Michigan beekeepers.</p>
+          <a href="/coming-soon" class="btn-primary">View Products</a>
+        </div>
+      </div>
+      
+    </div>
   </section>
 </BaseLayout>
 
 <style>
+  /* Hero Section */
   .hero-section {
-    padding: 4rem 0;
+    position: relative;
+    /* Use a responsive height */
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    color: var(--color-cream);
+    overflow: hidden;
   }
-  
-  .hero-section h1 {
+
+  .hero-bg-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(33, 33, 33, 0.6); /* Dark overlay requested */
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    max-width: 800px;
+  }
+
+  .hero-content h1 {
     font-size: 2.5rem;
     color: var(--color-gold);
     margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
   }
-  
-  .hero-section p {
+
+  .hero-content p {
     font-size: 1.25rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  }
+
+  @media (min-width: 768px) {
+    .hero-content h1 {
+      font-size: 3.5rem;
+    }
+  }
+
+  /* Products Section */
+  .products-section {
+    padding: 5rem 1rem;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: var(--color-charcoal);
+  }
+
+  /* Grid Layout handling responsive stacking */
+  .products-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile-first: single column stack */
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(3, 1fr); /* Desktop: 3 columns */
+    }
+  }
+
+  /* Product Cards */
+  .product-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  .card-img-wrapper {
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .card-img {
+    transform: scale(1.05);
+  }
+
+  .card-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .card-content h3 {
+    color: var(--color-gold);
+    margin-bottom: 1rem;
+  }
+
+  .card-content p {
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background-color: var(--color-gold);
+    color: var(--color-cream);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    align-self: center;
+  }
+
+  .btn-primary:hover {
+    background-color: #e69a1f;
+    color: var(--color-cream);
+    text-decoration: none;
+    transform: translateY(-2px);
   }
 </style>
