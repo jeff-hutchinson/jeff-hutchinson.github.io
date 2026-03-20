@@ -1,0 +1,285 @@
+---
+---
+<header class="site-header">
+  <div class="header-container">
+    <a href="/" class="logo">
+      <img src="/logo.svg" alt="Laurieville Farms" />
+      <span class="site-title">Laurieville&nbsp;Farms</span>
+    </a>
+    
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    
+    <nav class="main-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li class="has-dropdown">
+          <button class="dropdown-toggle" aria-expanded="false">
+            Products <span class="arrow">▼</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="/products/honey">Honey & Sweets</a></li>
+            <li><a href="/products/candles">Beeswax & Candles</a></li>
+            <li><a href="/products/supplies">Beekeeping Supplies</a></li>
+          </ul>
+        </li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/find-us">Find Us</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background-color: var(--color-cream);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 100;
+    align-items: center;
+  }
+  
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center; /* This is the "Magic" for vertical centering */
+    gap: 15px;
+    text-decoration: none;
+    padding: 0;
+  }
+  
+  .logo img {
+    width: auto;
+    /* Increase this to make the bee "pop" */
+    height: 65px; 
+    max-height: 65px;
+  }
+
+  .site-title {
+    color: #f9a825;
+    font-family: serif;
+    font-weight: bold;
+    /* Match the font-size to the logo's presence */
+    font-size: 2.2rem; 
+    line-height: 1; /* Removes extra space above/below letters */
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .logo:hover {
+    opacity: 0.8;
+  }
+  
+  /* Mobile Menu Styles */
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  
+  .menu-toggle .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--color-charcoal);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-cream);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .main-nav.is-open {
+    display: block;
+  }
+  
+  .main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .main-nav li {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  
+  .main-nav a,
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1rem;
+    color: var(--color-charcoal);
+    font-size: 1.1rem;
+    text-decoration: none;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--font-sans);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .dropdown-menu {
+    display: none;
+    background-color: #f5f5f5;
+  }
+  
+  .has-dropdown.is-open .dropdown-menu {
+    display: block;
+  }
+  
+  .arrow {
+    font-size: 0.8em;
+    transition: transform 0.3s ease;
+    display: inline-block;
+  }
+  
+  .has-dropdown.is-open .arrow {
+    transform: rotate(180deg);
+  }
+
+  /* Desktop Styles */
+  @media (min-width: 768px) {
+    .site-header {
+      position: sticky;
+      top: 0;
+    }
+    
+    .menu-toggle {
+      display: none;
+    }
+    
+    .main-nav {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+      position: static;
+      box-shadow: none;
+      background: none;
+    }
+    
+    .main-nav > ul {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: nowrap;
+      margin-top: 6px; /* Visually aligns the text baseline with the larger logo text */
+    }
+    
+    .main-nav li {
+      border: none;
+      position: relative;
+    }
+    
+    .main-nav a, 
+    .dropdown-toggle {
+      padding: 0.5rem;
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 200px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      background-color: var(--color-cream);
+      border-radius: 4px;
+    }
+    
+    .dropdown-menu a {
+      padding: 0.75rem 1rem;
+    }
+    
+    .dropdown-menu a:hover {
+      background-color: var(--color-gold);
+      color: var(--color-cream);
+    }
+  }
+
+  /* Desktop Logo using min-width: 1024px as requested */
+  @media (min-width: 1024px) {
+    .logo img {
+      max-height: 65px;
+    }.site-title {
+      font-size: 3rem; /* Grows to match the 65px logo */
+    }
+  }
+</style>
+
+<script>
+  const setupMenus = () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    
+    if (menuToggle && mainNav) {
+      // Remove previously attached events if the script runs again (like on view transitions)
+      const oldToggle = menuToggle.cloneNode(true) as HTMLButtonElement;
+      menuToggle.parentNode?.replaceChild(oldToggle, menuToggle);
+      
+      oldToggle.addEventListener('click', () => {
+        const expanded = oldToggle.getAttribute('aria-expanded') === 'true';
+        oldToggle.setAttribute('aria-expanded', String(!expanded));
+        mainNav.classList.toggle('is-open');
+      });
+    }
+    
+    dropdownToggles.forEach(toggle => {
+      const oldBtn = toggle.cloneNode(true) as HTMLButtonElement;
+      toggle.parentNode?.replaceChild(oldBtn, toggle);
+      
+      oldBtn.addEventListener('click', (e) => {
+        const parent = oldBtn.closest('.has-dropdown');
+        const expanded = oldBtn.getAttribute('aria-expanded') === 'true';
+        
+        document.querySelectorAll('.has-dropdown.is-open').forEach(openParent => {
+          if (openParent !== parent) {
+            openParent.classList.remove('is-open');
+            const openToggle = openParent.querySelector('.dropdown-toggle');
+            if(openToggle) openToggle.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        oldBtn.setAttribute('aria-expanded', String(!expanded));
+        if(parent) parent.classList.toggle('is-open');
+      });
+    });
+    
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.has-dropdown')) {
+        document.querySelectorAll('.has-dropdown.is-open').forEach(parent => {
+          parent.classList.remove('is-open');
+          const toggle = parent.querySelector('.dropdown-toggle');
+          if(toggle) toggle.setAttribute('aria-expanded', 'false');
+        });
+      }
+    });
+  };
+
+  setupMenus();
+  document.addEventListener('astro:page-load', setupMenus);
+</script>
