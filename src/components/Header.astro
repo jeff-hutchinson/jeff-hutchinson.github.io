@@ -61,8 +61,8 @@
   
   .logo img {
     width: auto;
-    /* Increase this to make the bee "pop" */
-    height: 65px; 
+    /* Increase this to make the bee "pop" but keep fluid for mobile */
+    height: clamp(40px, 8vw, 65px); 
     max-height: 65px;
   }
 
@@ -70,12 +70,11 @@
     color: #f9a825;
     font-family: serif;
     font-weight: bold;
-    /* Match the font-size to the logo's presence */
-    font-size: 2.2rem; 
+    /* Match the font-size to the logo's presence, dynamically shrinking on mobile */
+    font-size: clamp(1.2rem, 5vw, 2.2rem); 
     line-height: 1; /* Removes extra space above/below letters */
     display: flex;
     align-items: center;
-    white-space: nowrap;
   }
 
   .logo:hover {
