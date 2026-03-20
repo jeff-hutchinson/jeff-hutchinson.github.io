@@ -32,9 +32,9 @@ import suppliesImg from '../assets/inner-cover.jpg';
       
       <!-- Card 1 -->
       <div class="product-card">
-        <div class="card-img-wrapper">
+        <a href="/products/honey" class="card-img-wrapper">
           <Image src={honeyImg} alt="Honey & Sweets" class="card-img" height={400} />
-        </div>
+        </a>
         <div class="card-content">
           <h3>Honey & Sweets</h3>
           <p>Pure, raw Michigan honey harvested locally from our own apiaries.</p>
@@ -44,9 +44,9 @@ import suppliesImg from '../assets/inner-cover.jpg';
       
       <!-- Card 2 -->
       <div class="product-card">
-        <div class="card-img-wrapper">
+        <a href="/products/candles" class="card-img-wrapper">
           <Image src={candleImg} alt="Beeswax & Candles" class="card-img" height={400} />
-        </div>
+        </a>
         <div class="card-content">
           <h3>Beeswax & Candles</h3>
           <p>Hand-poured beeswax candles that naturally purify your home's air.</p>
@@ -56,9 +56,9 @@ import suppliesImg from '../assets/inner-cover.jpg';
       
       <!-- Card 3 -->
       <div class="product-card">
-        <div class="card-img-wrapper">
+        <a href="/coming-soon" class="card-img-wrapper">
           <Image src={suppliesImg} alt="Beekeeping Supplies" class="card-img" height={400} />
-        </div>
+        </a>
         <div class="card-content">
           <h3>Beekeeping Supplies</h3>
           <p>Handcrafted woodenware and supplies built for Michigan beekeepers.</p>
@@ -176,6 +176,7 @@ import suppliesImg from '../assets/inner-cover.jpg';
   }
 
   .card-img-wrapper {
+    display: block;
     height: 250px;
     overflow: hidden;
   }
