@@ -30,10 +30,10 @@ import candleHero from '../../assets/candle.jpg';
     <div class="content-block">
       <h2>Clean Air Benefits</h2>
       <p>
-        Unlike petroleum-based paraffin candles—which emit harmful toxins and black soot when burned—beeswax is a natural, non-toxic fuel. In fact, burning beeswax produces negative ions that can help neutralize pollutants, dust, and allergens in the air, actively purifying your home.
+        Unlike paraffin candles, which are made from petroleum byproducts, our beeswax is a renewable and natural fuel. Because beeswax has a naturally high melting point, it delivers a slow, smoke-free burn that is significantly cleaner than synthetic alternatives.
       </p>
       <p>
-        At Laurieville Farms, our candles are created with your family's health in mind. We use only <strong>100% cotton wicks</strong>, ensuring a clean and steady burn. You will never find lead, zinc, or artificial fragrances in our candles—just the natural, subtle, sweet scent of honey and blossoms straight from the hive.
+        While many value beeswax for its ability to help maintain a fresher indoor environment, the true "Laurieville Difference" is in our commitment to simplicity. Our candles are <strong>100% pure beeswax</strong>, free from the artificial fragrances and complex additives often found in mass-produced wax. We use only <strong>100% cotton wicks</strong>—you will never find lead or zinc in our products. When you light a Laurieville candle, you aren’t breathing in anything artificial; you are enjoying the natural, subtle, and sweet scent of honey and blossoms brought straight from the hive.
       </p>
     </div>
 
@@ -41,7 +41,10 @@ import candleHero from '../../assets/candle.jpg';
 
   <!-- Placeholder for future shop section -->
   <div class="shop-placeholder container">
-    <!-- Future "Shop Our Collection" section will go here -->
+    <div class="coming-soon-banner">
+      <h3>Shop Our Collection</h3>
+      <p>Product listings are <strong>Coming Soon!</strong></p>
+    </div>
   </div>
 </BaseLayout>
 
@@ -138,7 +141,27 @@ import candleHero from '../../assets/candle.jpg';
   }
 
   .shop-placeholder {
-    height: 100px; /* Temporary height */
+    margin-bottom: 4rem;
+  }
+
+  .coming-soon-banner {
+    background-color: var(--color-gold);
+    color: var(--color-cream);
+    padding: 3rem;
+    text-align: center;
+    border-radius: 8px;
     margin-top: 4rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .coming-soon-banner h3 {
+    color: var(--color-cream);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+  }
+  
+  .coming-soon-banner p {
+    font-size: 1.25rem;
+    margin: 0;
   }
 </style>

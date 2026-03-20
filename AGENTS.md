@@ -31,6 +31,7 @@
   2. Beeswax & Candles
   3. Beekeeping Supplies
 - **Contact Info:** Use `info@laurievillefarms.com` and `(810) 47-HONEY`.
+- **Mobile UI:** Mobile pages should never have horizontal scrolling.
 
 ## 5. Interaction Rules
 - Always check `MISSION.md` for specific task objectives before starting.
