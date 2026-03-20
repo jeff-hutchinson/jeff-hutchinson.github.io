@@ -41,7 +41,10 @@ import candleHero from '../../assets/candle.jpg';
 
   <!-- Placeholder for future shop section -->
   <div class="shop-placeholder container">
-    <!-- Future "Shop Our Collection" section will go here -->
+    <div class="coming-soon-banner">
+      <h3>Shop Our Collection</h3>
+      <p>Actual product listings are <strong>Coming Soon!</strong></p>
+    </div>
   </div>
 </BaseLayout>
 
@@ -138,7 +141,27 @@ import candleHero from '../../assets/candle.jpg';
   }
 
   .shop-placeholder {
-    height: 100px; /* Temporary height */
+    margin-bottom: 4rem;
+  }
+
+  .coming-soon-banner {
+    background-color: var(--color-gold);
+    color: var(--color-cream);
+    padding: 3rem;
+    text-align: center;
+    border-radius: 8px;
     margin-top: 4rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .coming-soon-banner h3 {
+    color: var(--color-cream);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+  }
+  
+  .coming-soon-banner p {
+    font-size: 1.25rem;
+    margin: 0;
   }
 </style>
