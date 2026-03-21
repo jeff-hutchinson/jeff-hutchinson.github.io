@@ -16,6 +16,10 @@ const socialLinks = {
   <section class="page-hero">
     <div class="hero-bg-wrapper">
       <Image src={beeHivesHero} alt="Laurieville Farms Bee Hives" class="hero-img" width={1920} />
+<<<<<<< HEAD
+=======
+      <div class="hero-overlay"></div>
+>>>>>>> 05ec3eb (chore: safe save working directory)
     </div>
     <div class="hero-content">
       <h1>About Our Farm</h1>
@@ -77,6 +81,15 @@ const socialLinks = {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(33, 33, 33, 0.35);
   }
 
   .hero-content {
