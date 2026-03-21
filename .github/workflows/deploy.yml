@@ -3,7 +3,7 @@ on:
   push:
     branches: [main, develop] # Jules can now trigger a build from develop
   pull_request:
-    branches: [main] # This will run a check whenever Jules opens a PR
+    branches: [main, develop] # This will run a check whenever Jules opens a PR to main or develop
   workflow_dispatch:
 permissions:
   contents: read
