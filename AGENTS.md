@@ -22,11 +22,14 @@
   - Submit Pull Requests (PRs) to the `develop` branch.
 
 ## 4. UI/UX Requirements
-- **Accessibility:** Must maintain WCAG AA compliance (4.5:1 contrast for text). Use Dark Honey for text/links on Cream backgrounds.
-- **Color Palette:** - Background: Cream (#fffdf7)
-  - Accents & Buttons: Honey Gold (#f9a825)
-  - Text Links & Highlighted Text: Dark Honey (#a16500)
-  - Text/Icons: Charcoal (#212121)
+- **Accessibility (CI/CD ENFORCED):** The GitHub Actions pipeline strictly enforces WCAG AA (4.5:1) text contrast via `@axe-core/cli`. If you push inaccessible combinations, the deployment will intentionally crash. Test contrast locally before submitting PRs!
+- **Architecture Strategy:** "High-Contrast Hybrid" (Light body for reading, Dark blocks for impact).
+- **Color Palette:**
+  - Global Body Background: Cream (`#fffdf7`)
+  - Global Text: Charcoal (`#212121`)
+  - Impact Zones (Headers/Footers/Cards): Charcoal (`#212121`) backgrounds with Cream text.
+  - Accents (Links/Buttons/Highlights): Honey Gold (`#E8A50E`). 
+  - **CRITICAL CONTRAST RULE:** Gold MUST sit on Charcoal backgrounds to pass WCAG requirements. NEVER place Gold text on Cream backgrounds.
 - **Typography:** Serif for headers; Sans-serif for body.
 - **Navigation:** Must feature a "Products" dropdown with exactly these categories:
   1. Honey & Sweets
