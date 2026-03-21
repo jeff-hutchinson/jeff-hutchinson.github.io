@@ -1,7 +1,6 @@
 :root {
   --color-cream: #fffdf7;
-  --color-gold: #f9a825;
-  --color-dark-honey: #a16500;
+  --color-gold: #E8A50E;
   --color-charcoal: #212121;
   
   --font-serif: "Georgia", serif;
@@ -32,9 +31,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--color-dark-honey);
+  color: var(--color-gold);
+  font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 a:hover {
