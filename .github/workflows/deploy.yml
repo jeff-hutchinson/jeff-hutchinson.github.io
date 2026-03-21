@@ -20,7 +20,6 @@ jobs:
         with:
           # This forces the action to use your package.json script
           node-version: 24
-          build-cmd: npm run build
   deploy:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
