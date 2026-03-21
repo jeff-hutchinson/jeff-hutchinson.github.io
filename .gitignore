@@ -1,0 +1,23 @@
+# Local editor directories
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# build output
+dist/
+dist-ssr/
+
+# Dependency directories
+node_modules/
+
+# Mac OS
+.DS_Store
+
+# Astro
+.astro/
