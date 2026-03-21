@@ -33,12 +33,11 @@ jobs:
         run: npm ci
       - name: Build site
         run: npm run build
-      - name: Run Axe accessibility checks
+      - name: Run Pa11y Accessibility checks
         run: |
-          npx -y browser-driver-manager install chrome
           npx -y serve dist -p 4321 &
-          sleep 3
-          npx --yes @axe-core/cli http://localhost:4321/ http://localhost:4321/info http://localhost:4321/products/candles http://localhost:4321/products/honey http://localhost:4321/coming-soon --exit
+          sleep 4
+          npx -y pa11y-ci http://localhost:4321/ http://localhost:4321/info http://localhost:4321/products/candles http://localhost:4321/products/honey http://localhost:4321/coming-soon
   deploy:
     needs: [build, a11y-test]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
