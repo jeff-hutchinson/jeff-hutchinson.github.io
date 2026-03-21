@@ -20,6 +20,44 @@ const { title = "Laurieville Farms" } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Laurieville Farms",
+        "image": "https://laurievillefarms.com/images/logo.png",
+        "@id": "https://laurievillefarms.com",
+        "url": "https://laurievillefarms.com",
+        "telephone": "+18104746639",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "3957 Kim Ct.",
+          "addressLocality": "Otter Lake",
+          "addressRegion": "MI",
+          "postalCode": "48464",
+          "addressCountry": "US"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 43.2811,
+          "longitude": -83.5305
+        },
+        "publicAccess": false,
+        "description": "Michigan-based apiary specializing in raw honey, beeswax candles, and custom beekeeping woodenware. All visits are by appointment only.",
+        "sameAs": [
+          "https://www.facebook.com/LaurievilleFarms",
+          "https://www.instagram.com/laurievillefarms",
+          "https://www.tiktok.com/@laurievillefarms",
+          "https://www.youtube.com/@LaurievilleFarms"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+18104746639",
+          "contactType": "customer service",
+          "availableLanguage": "en"
+        }
+      }
+</script>
   </head>
   <body>
     <Header />
