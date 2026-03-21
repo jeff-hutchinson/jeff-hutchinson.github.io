@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# ---------------------------------------------------------
+# ALLOW: AI Search (Helps people find you in AI answers)
+# ---------------------------------------------------------
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# ---------------------------------------------------------
+# BLOCK: AI Training (Prevents scraping for model training)
+# ---------------------------------------------------------
+User-agent: GPTBot
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: Meta-ExternalAgent
+Disallow: /
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://laurievillefarms.com/sitemap-index.xml
