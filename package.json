@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/jeff-hutchinson/jeff-hutchinson.github.io#readme",
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.1",
     "astro": "^6.0.6"
   }
 }
