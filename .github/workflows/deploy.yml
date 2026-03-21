@@ -35,6 +35,7 @@ jobs:
         run: npm run build
       - name: Run Axe accessibility checks
         run: |
+          npx -y browser-driver-manager install chrome
           npx -y serve dist -p 4321 &
           sleep 3
           npx --yes @axe-core/cli http://localhost:4321/ http://localhost:4321/info http://localhost:4321/products/candles http://localhost:4321/products/honey http://localhost:4321/coming-soon --exit
