@@ -20,8 +20,26 @@ jobs:
         with:
           # This forces the action to use your package.json script
           node-version: 24
+  a11y-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install dependencies
+        run: npm ci
+      - name: Build site
+        run: npm run build
+      - name: Run Axe accessibility checks
+        run: |
+          npx -y serve dist -p 4321 &
+          sleep 3
+          npx --yes @axe-core/cli http://localhost:4321/ http://localhost:4321/info http://localhost:4321/products/candles http://localhost:4321/products/honey http://localhost:4321/coming-soon --exit
   deploy:
-    needs: build
+    needs: [build, a11y-test]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
