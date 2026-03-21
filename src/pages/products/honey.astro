@@ -9,7 +9,6 @@ import honeyHero from '../../assets/honey-jar.jpg';
   <section class="page-hero">
     <div class="hero-bg-wrapper">
       <Image src={honeyHero} alt="Raw Michigan Honey" class="hero-img" width={1920} />
-      <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
       <h1>Pure Michigan Honey</h1>
@@ -67,24 +66,15 @@ import honeyHero from '../../assets/honey-jar.jpg';
 
 <style>
   .page-hero {
-    position: relative;
-    min-height: 40vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--color-cream);
-    overflow: hidden;
+    flex-direction: column;
     margin-bottom: 4rem;
   }
 
   .hero-bg-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
-    z-index: 1;
+    height: 40vh;
   }
 
   .hero-img {
@@ -93,40 +83,22 @@ import honeyHero from '../../assets/honey-jar.jpg';
     object-fit: cover;
   }
 
-  .hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(33, 33, 33, 0.35);
-  }
-
   .hero-content {
-    position: relative;
-    z-index: 2;
-    padding: 2rem;
+    background-color: var(--color-charcoal);
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--color-cream);
   }
 
   .hero-content h1 {
-    width: fit-content;
-    margin: 0 auto 0.5rem auto;
-    background-color: rgba(33, 33, 33, 0.75);
-    padding: 0 0.25rem;
-    border-radius: 2px;
     font-size: 3rem;
     color: var(--color-gold);
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8), 0px 0px 20px rgba(0,0,0,0.9);
+    margin-bottom: 0.5rem;
   }
 
   .hero-content p {
-    width: fit-content;
-    margin: 0 auto;
-    background-color: rgba(33, 33, 33, 0.75);
-    padding: 0 0.25rem;
-    border-radius: 2px;
     font-size: 1.25rem;
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.8), 0px 0px 10px rgba(0,0,0,0.9);
+    margin: 0;
   }
 
   .edu-content {
