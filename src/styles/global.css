@@ -1,6 +1,7 @@
 :root {
   --color-cream: #fffdf7;
   --color-gold: #f9a825;
+  --color-dark-honey: #965600;
   --color-charcoal: #212121;
   
   --font-serif: "Georgia", serif;
@@ -31,13 +32,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--color-gold);
+  color: var(--color-dark-honey);
   text-decoration: none;
   transition: color 0.2s ease-in-out;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+*:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 4px;
 }
 
 .container {

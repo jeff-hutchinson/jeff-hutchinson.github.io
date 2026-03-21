@@ -22,8 +22,10 @@
   - Submit Pull Requests (PRs) to the `develop` branch.
 
 ## 4. UI/UX Requirements
+- **Accessibility:** Must maintain WCAG AA compliance (4.5:1 contrast for text). Use Dark Honey for text/links on Cream backgrounds.
 - **Color Palette:** - Background: Cream (#fffdf7)
-  - Accents: Honey Gold (#f9a825)
+  - Accents & Buttons: Honey Gold (#f9a825)
+  - Text Links & Highlighted Text: Dark Honey (#965600)
   - Text/Icons: Charcoal (#212121)
 - **Typography:** Serif for headers; Sans-serif for body.
 - **Navigation:** Must feature a "Products" dropdown with exactly these categories:
