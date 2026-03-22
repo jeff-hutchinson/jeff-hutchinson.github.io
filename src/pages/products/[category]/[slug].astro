@@ -1,0 +1,313 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductGallery from '../../../components/ProductGallery.astro';
+import catalogData from '../../../data/products.json';
+
+// Generate all individual product URLs dynamically
+export function getStaticPaths() {
+  return catalogData.products.map((product) => ({
+    params: { 
+      category: product.category,
+      slug: product.id 
+    },
+    props: { product }
+  }));
+}
+
+const { product } = Astro.props;
+---
+<BaseLayout pageTitle={`${product.name} | Laurieville Farms`}>
+  <div class="product-page-wrapper">
+    
+    <!-- Clean Breadcrumb Navigation -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/products/woodenware" class="capitalize">{product.category}</a> &gt; 
+      <span class="current-page">{product.name}</span>
+    </nav>
+
+    <div class="product-grid">
+      <!-- Left Column: Image Gallery Component -->
+      <div class="gallery-column">
+        <ProductGallery images={product.images} />
+      </div>
+
+      <!-- Right Column: Product Details & Logic -->
+      <div class="details-column">
+        <h1 class="product-title">{product.name}</h1>
+        <p class="product-description">{product.description}</p>
+
+        <!-- Hidden Data Island for strict separation of concerns (Wix compatibility) -->
+        <script type="application/json" id="product-variants-data">
+          {JSON.stringify(product.variants)}
+        </script>
+        
+        <div class="selection-area">
+          <label for="variant-select" class="dropdown-label">Select Option:</label>
+          <select id="variant-select" class="custom-select">
+            <option value="" disabled selected>Choose a size/variant...</option>
+            {product.variants.map((v: any) => (
+              <option value={v.id}>{v.label}</option>
+            ))}
+          </select>
+
+          <!-- Dynamic Reveal Area (Hidden until valid selection is made) -->
+          <div id="dynamic-reveal" class="hidden-reveal">
+            <div class="price-status-row">
+              <span id="dynamic-price" class="price-text"></span>
+              <span id="dynamic-status-badge" class="badge"></span>
+            </div>
+            
+            <!-- Future Wix Cart Extensible Wrapper -->
+            <div class="cart-wrapper" id="cart-action-container">
+              <a href="#" id="inquire-btn" class="inquire-btn">
+                Inquire to Order
+              </a>
+              <p class="inquiry-note">No payment required. We will reply to your email with timeline and pickup coordination.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .product-page-wrapper {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 6rem;
+    color: var(--color-charcoal, #212121);
+  }
+
+  .breadcrumb {
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    color: #666;
+    font-family: var(--font-sans, "Helvetica", sans-serif);
+  }
+  
+  .breadcrumb a {
+    color: var(--color-gold, #E8A50E);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  
+  .capitalize {
+    text-transform: capitalize;
+  }
+
+  .current-page {
+    color: var(--color-charcoal, #212121);
+    font-weight: bold;
+  }
+
+  /* Mobile-first stacking, desktop side-by-side */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 900px) {
+    .product-grid {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: start;
+      gap: 4rem;
+    }
+  }
+
+  .product-title {
+    font-family: var(--font-serif, "Georgia", serif);
+    font-size: 2.5rem;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.2;
+    color: var(--color-charcoal, #212121);
+  }
+
+  .product-description {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    color: #444;
+  }
+
+  /* Interactive Form Area */
+  .selection-area {
+    background-color: #f7f3ec; /* Soft cream for visual separation */
+    padding: 2.5rem 2rem;
+    border-radius: 8px;
+    border: 1px solid #e0d8c8;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .dropdown-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .custom-select {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    font-family: var(--font-sans, "Helvetica", sans-serif);
+    transition: border-color 0.2s ease;
+  }
+
+  .custom-select:focus {
+    outline: none;
+    border-color: var(--color-gold, #E8A50E);
+  }
+
+  /* CSS Animation for Revealing Context Data */
+  .hidden-reveal {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 0;
+    overflow: hidden;
+  }
+
+  .hidden-reveal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    height: auto;
+    overflow: visible;
+    margin-top: 2rem;
+  }
+
+  .price-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .price-text {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--color-charcoal, #212121);
+  }
+
+  .badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Status Styles aligning with User Guidelines */
+  .badge.ready { background-color: #2e7d32; color: #fff; }
+  .badge.custom { background-color: #1976d2; color: #fff; }
+  .badge.low { background-color: #f57c00; color: #fff; }
+  .badge.out { background-color: #757575; color: #fff; }
+
+  .cart-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .inquire-btn {
+    display: block;
+    width: 100%;
+    /* Accent Impact Zone: Gold button, Charcoal text */
+    background-color: var(--color-gold, #E8A50E);
+    color: var(--color-charcoal, #212121);
+    text-align: center;
+    padding: 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 6px rgba(232, 165, 14, 0.2);
+  }
+
+  .inquire-btn:hover {
+    background-color: #d1940b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(232, 165, 14, 0.3);
+  }
+
+  .inquiry-note {
+    font-size: 0.9rem;
+    color: #555;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+  }
+</style>
+
+<script>
+  // Isolate JS to run after Astro hydration
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectEl = document.getElementById('variant-select') as HTMLSelectElement;
+    const revealArea = document.getElementById('dynamic-reveal');
+    const priceText = document.getElementById('dynamic-price');
+    const badgeEl = document.getElementById('dynamic-status-badge');
+    const inquireBtn = document.getElementById('inquire-btn') as HTMLAnchorElement;
+    
+    // Ingest the decoupled JSON data island 
+    const dataIsland = document.getElementById('product-variants-data');
+    if (!selectEl || !dataIsland) return;
+    
+    // Parse the injected variants
+    const variants = JSON.parse(dataIsland.textContent || '[]');
+    const productName = document.querySelector('.product-title')?.textContent || 'Product';
+
+    // Status Map linking JSON keys to visual UI rendering
+    const statusMap: Record<string, { label: string, currentClass: string }> = {
+      'ready_now': { label: 'Available for Pickup', currentClass: 'ready' },
+      'custom_build': { label: 'Handcrafted to Order', currentClass: 'custom' },
+      'low_stock': { label: 'Limited Availability', currentClass: 'low' },
+      'unavailable': { label: 'Currently Unavailable', currentClass: 'out' }
+    };
+
+    selectEl.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      const selectedId = target.value;
+      const variant = variants.find((v: any) => v.id === selectedId);
+
+      if (variant && revealArea && priceText && badgeEl && inquireBtn) {
+        // 1. Inject Accurate Price
+        priceText.textContent = `$${parseFloat(variant.price).toFixed(2)}`;
+
+        // 2. Inject Accurate Status Badge
+        const statusConfig = statusMap[variant.status] || statusMap['custom_build'];
+        badgeEl.textContent = statusConfig.label;
+        badgeEl.className = `badge ${statusConfig.currentClass}`;
+
+        // 3. Pre-fill the specific Inquiry Email Payload
+        const subject = encodeURIComponent(`Inquiry: ${productName} - ${variant.label}`);
+        const body = encodeURIComponent(
+          `Hello Laurieville Farms,\n\nI am interested in ordering the following handcrafted item:\n\nProduct: ${productName}\nOption: ${variant.label}\nPrice: $${parseFloat(variant.price).toFixed(2)}\n\nPlease let me know your current production timeline and pickup availability.\n\nThank you!`
+        );
+        inquireBtn.href = `mailto:info@laurievillefarms.com?subject=${subject}&body=${body}`;
+
+        // 4. Trigger UI Expansion Animation
+        revealArea.classList.add('active');
+      }
+    });
+  });
+</script>

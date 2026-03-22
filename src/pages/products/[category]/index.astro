@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import catalogData from '../../../data/products.json';
+
+// Astro's SSG function to generate the raw URLs mathematically
+export function getStaticPaths() {
+  const categories = Object.keys(catalogData.categories);
+  return categories.map((cat) => ({
+    params: { category: cat },
+    props: { 
+      // @ts-ignore
+      categoryData: catalogData.categories[cat],
+      products: catalogData.products.filter(p => p.category === cat)
+    }
+  }));
+}
+
+const { category } = Astro.params;
+const { categoryData, products } = Astro.props;
+
+// Formatting the title cleanly (e.g., 'woodenware' -> 'Woodenware')
+const title = category.charAt(0).toUpperCase() + category.slice(1);
+---
+<BaseLayout pageTitle={`${title} | Laurieville Farms`}>
+  {/* Utilizing the established 'Split-Block' High Contrast Hero rule */}
+  <section class="category-hero page-hero">
+    <div class="hero-content">
+      <h1>{title}</h1>
+      <p class="category-description">{categoryData.header}</p>
+    </div>
+  </section>
+
+  <section class="products-grid wrapper">
+    {products.length > 0 ? (
+      <div class="grid-container">
+        {products.map(product => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <p>New {title.toLowerCase()} arriving soon! Please check back later or contact us directly.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .category-hero {
+    /* Impact Zone: Charcoal Background */
+    background-color: var(--color-charcoal, #212121);
+    color: var(--color-cream, #fffdf7);
+    padding: 4rem 1.5rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .hero-content h1 {
+    font-family: var(--font-serif, "Georgia", serif);
+    font-size: 3rem;
+    margin: 0 0 1rem 0;
+    color: var(--color-cream, #fffdf7);
+    letter-spacing: 0.02em;
+  }
+  
+  .category-description {
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto;
+    /* Access constraint: Contrast Gold */
+    color: var(--color-gold, #E8A50E); 
+    line-height: 1.6;
+  }
+
+  .wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+  }
+
+  /* Structural UI Rule: Mobile-first 1-column stacking */
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Tablet view: 2 columns */
+  @media (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Desktop view: 3 columns */
+  @media (min-width: 1024px) {
+    .grid-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #f7f3ec; /* Cream derivative */
+    border: 1px dashed var(--color-charcoal, #212121);
+    border-radius: 8px;
+    color: var(--color-charcoal, #212121);
+    font-style: italic;
+  }
+</style>

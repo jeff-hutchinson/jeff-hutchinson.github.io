@@ -1,0 +1,260 @@
+---
+// src/components/ProductGallery.astro
+const { images } = Astro.props;
+---
+
+<div class="product-gallery">
+  <!-- Main Stage -->
+  <div class="main-stage-wrapper" id="gallery-mainStage">
+    <img 
+      src={images[0].url} 
+      alt={images[0].alt} 
+      id="main-image"
+      loading="eager" 
+      decoding="async" 
+    />
+    <button id="lightbox-trigger" aria-label="Expand image" class="expand-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+    </button>
+  </div>
+
+  <!-- Thumbnails Row -->
+  {images.length > 1 && (
+    <div class="thumbnail-strip">
+      {images.map((img: any, index: number) => (
+        <button 
+          class={`thumb-btn ${index === 0 ? 'active' : ''}`} 
+          data-image={img.url}
+          aria-label={`View ${img.alt}`}
+        >
+          <img src={img.url} alt={`Thumbnail for ${img.alt}`} loading="lazy" decoding="async" />
+        </button>
+      ))}
+    </div>
+  )}
+
+  <!-- Lightbox Overlay -->
+  <dialog id="lightbox-dialog" class="lightbox">
+    <button id="lightbox-close" aria-label="Close lightbox" class="close-btn">&times;</button>
+    <div class="lightbox-content">
+      <img id="lightbox-img" src="" alt="Enlarged view" loading="lazy" />
+    </div>
+  </dialog>
+</div>
+
+<style>
+  .product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .main-stage-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 8px;
+    overflow: hidden;
+    /* Implementing Charcoal background to match architecture constraints */
+    background-color: var(--color-charcoal, #212121);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: zoom-in;
+  }
+
+  .main-stage-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Contain ensures woodwork dimensions aren't cropped */
+    transition: opacity 0.2s ease;
+  }
+  
+  .expand-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: rgba(33, 33, 33, 0.7);
+    color: var(--color-gold, #E8A50E);
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s ease;
+  }
+  
+  .expand-btn:hover {
+    background: rgba(33, 33, 33, 0.9);
+  }
+
+  .expand-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .thumbnail-strip {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    /* Custom scrollbar matching the Gold aesthetic */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gold, #E8A50E) transparent;
+  }
+
+  .thumbnail-strip::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .thumbnail-strip::-webkit-scrollbar-thumb {
+    background-color: var(--color-gold, #E8A50E);
+    border-radius: 4px;
+  }
+
+  .thumb-btn {
+    flex: 0 0 80px;
+    height: 80px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: transparent;
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+    opacity: 0.7;
+  }
+
+  .thumb-btn.active {
+    border-color: var(--color-gold, #E8A50E);
+    opacity: 1;
+  }
+
+  .thumb-btn:hover {
+    opacity: 1;
+  }
+
+  .thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* HTML5 Dialog Lightbox */
+  .lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(33, 33, 33, 0.95);
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .lightbox[open] {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 9999;
+  }
+
+  .lightbox::backdrop {
+    background: transparent;
+  }
+
+  .lightbox-content {
+    width: 90vw;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 0 24px rgba(0,0,0,0.5);
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--color-gold, #E8A50E);
+    font-size: 3rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10000;
+  }
+</style>
+
+<script>
+  // Setup interactivity after Astro hydration
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainImg = document.getElementById('main-image') as HTMLImageElement;
+    const stageWrapper = document.getElementById('gallery-mainStage');
+    const thumbBtns = document.querySelectorAll('.thumb-btn');
+    
+    // Lightbox API elements
+    const lightbox = document.getElementById('lightbox-dialog') as HTMLDialogElement;
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const closeBtn = document.getElementById('lightbox-close');
+    const expandBtn = document.getElementById('lightbox-trigger');
+
+    if (!mainImg) return;
+
+    // Cross-fade Thumbnail Click Logic
+    thumbBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newSrc = btn.getAttribute('data-image');
+        if (newSrc) {
+          mainImg.style.opacity = '0';
+          setTimeout(() => {
+            mainImg.src = newSrc;
+            mainImg.style.opacity = '1';
+          }, 200);
+
+          thumbBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+      });
+    });
+
+    const openLightbox = () => {
+      if (lightbox && lightboxImg) {
+        lightboxImg.src = mainImg.src;
+        lightbox.showModal();
+        document.body.style.overflow = 'hidden'; // Lock background scrolling
+      }
+    };
+
+    stageWrapper?.addEventListener('click', openLightbox);
+    expandBtn?.addEventListener('click', (e) => {
+      e.stopPropagation(); 
+      openLightbox();
+    });
+
+    const closeLightbox = () => {
+      if (lightbox) {
+        lightbox.close();
+        document.body.style.overflow = ''; // Unlock scrolling
+      }
+    };
+
+    closeBtn?.addEventListener('click', closeLightbox);
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,87 @@
+{
+  "categories": {
+    "woodenware": {
+      "header": "All woodenware is handcrafted in our Michigan shop. Custom dimensions available upon inquiry."
+    },
+    "honey": {
+      "header": "Raw, unfiltered honey straight from our apiary. Seasonal availability applies."
+    },
+    "candles": {
+      "header": "100% pure beeswax candles, hand-poured in small batches."
+    }
+  },
+  "products": [
+    {
+      "id": "deep-hive-body",
+      "name": "Deep Hive Body",
+      "category": "woodenware",
+      "description": "Commercial grade pine hive body. Built with precision box joints for maximum durability. Ideal for overwintering in northern climates.",
+      "images": [
+        {
+          "url": "/images/hero.jpg",
+          "alt": "10-frame deep hive body exterior"
+        }
+      ],
+      "variants": [
+        {
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 45.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
+          "price": 45.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "wildflower-honey",
+      "name": "Raw Wildflower Honey",
+      "category": "honey",
+      "description": "Pure, unprocessed wildflower honey. Harvested late summer for a robust, complex flavor profile profile.",
+      "images": [
+        {
+          "url": "/images/honey-card.jpg",
+          "alt": "1lb Classic glass jar of golden honey"
+        }
+      ],
+      "variants": [
+        {
+          "id": "1lb-jar",
+          "label": "1 lb Glass Jar",
+          "price": 12.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "3lb-jug",
+          "label": "3 lb Plastic Jug",
+          "price": 30.00,
+          "status": "low_stock"
+        }
+      ]
+    },
+    {
+      "id": "beeswax-taper-candles",
+      "name": "Hand-Dipped Taper Candles",
+      "category": "candles",
+      "description": "Solid natural beeswax taper candles. Naturally completely dripless and smoke-free with a mild honey scent.",
+      "images": [
+        {
+          "url": "/images/candles.jpg",
+          "alt": "Pair of golden beeswax taper candles"
+        }
+      ],
+      "variants": [
+        {
+          "id": "10-inch-pair",
+          "label": "10-inch (Pair)",
+          "price": 15.00,
+          "status": "custom_build"
+        }
+      ]
+    }
+  ]
+}
