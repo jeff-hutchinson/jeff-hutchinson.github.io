@@ -189,17 +189,19 @@ const { product } = Astro.props;
 
   .price-status-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;       /* Ensures it drops to next line if screen gets too narrow */
     padding-bottom: 1.5rem;
     border-bottom: 1px solid #ddd;
   }
 
   .price-text {
     font-size: 2.25rem;
-    font-weight: 800;
+    font-weight: 900;
     color: var(--color-charcoal, #212121);
+    line-height: 1; /* Prevents invisible text box from pushing the badge weirdly */
   }
 
   .badge {
