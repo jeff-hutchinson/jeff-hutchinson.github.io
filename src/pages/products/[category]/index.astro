@@ -28,7 +28,7 @@ const title = category.charAt(0).toUpperCase() + category.slice(1);
 // Map specific hero images to generic category names dynamically
 const localImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif}');
 const categoryHeroMap: Record<string, string> = {
-  'woodenware': '/src/assets/hero.jpg',
+  'woodenware': '/src/assets/covers.jpg',
   'honey': '/src/assets/honey-jar.jpg',
   'candles': '/src/assets/candle.jpg'
 };
