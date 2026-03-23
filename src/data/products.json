@@ -167,8 +167,14 @@
       ],
       "variants": [
         {
-          "id": "standard",
-          "label": "Standard",
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 40.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
           "price": 40.00,
           "status": "ready_now"
         }
@@ -187,8 +193,14 @@
       ],
       "variants": [
         {
-          "id": "standard",
-          "label": "Standard Size",
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 30.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
           "price": 30.00,
           "status": "ready_now"
         }
