@@ -6,7 +6,7 @@ import { Image } from 'astro:assets';
 import heroImg from '../assets/hero.jpg';
 import honeyImg from '../assets/honey-jar.jpg';
 import candleImg from '../assets/candle.jpg';
-import suppliesImg from '../assets/inner-cover.jpg';
+import suppliesImg from '../assets/covers.jpg';
 ---
 
 <BaseLayout title="Laurieville Farms">
@@ -49,14 +49,14 @@ import suppliesImg from '../assets/inner-cover.jpg';
         <div class="card-content">
           <h3>Beeswax & Candles</h3>
           <p>Hand-poured beeswax candles that naturally purify your home's air.</p>
-          <a href="/products/candles" class="btn-primary">View Products</a>
+          <a href="{suppliesImg}" class="btn-primary">View Products</a>
         </div>
       </div>
       
       <!-- Card 3 -->
       <div class="product-card">
         <a href="/products/woodenware" class="card-img-wrapper" tabindex="-1">
-          <img src="/images/bee-hives.webp" alt="Wooden beehives painted in pastel colors in a snowy field" loading="lazy" decoding="async">
+          <img src="/images/covers.webp" alt="Wooden beehives painted in pastel colors in a snowy field" loading="lazy" decoding="async">
         </a>
         <div class="card-content">
           <h3>Beekeeping Supplies</h3>
