@@ -18,8 +18,16 @@
       "description": "Commercial grade pine hive body. Built with precision box joints for maximum durability. Ideal for overwintering in northern climates.",
       "images": [
         {
-          "url": "/images/hero.jpg",
+          "url": "/src/assets/hero.jpg",
           "alt": "10-frame deep hive body exterior"
+        },
+        {
+          "url": "/src/assets/bee-hives.jpg",
+          "alt": "Hive bodies in a snowy field"
+        },
+        {
+          "url": "/src/assets/inner-cover.jpg",
+          "alt": "Wooden inner cover accessory"
         }
       ],
       "variants": [
@@ -44,7 +52,7 @@
       "description": "Pure, unprocessed wildflower honey. Harvested late summer for a robust, complex flavor profile profile.",
       "images": [
         {
-          "url": "/images/honey-card.jpg",
+          "url": "/src/assets/honey-jar.jpg",
           "alt": "1lb Classic glass jar of golden honey"
         }
       ],
@@ -70,7 +78,7 @@
       "description": "Solid natural beeswax taper candles. Naturally completely dripless and smoke-free with a mild honey scent.",
       "images": [
         {
-          "url": "/images/candles.jpg",
+          "url": "/src/assets/candle.jpg",
           "alt": "Pair of golden beeswax taper candles"
         }
       ],
