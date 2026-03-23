@@ -1,16 +1,57 @@
 {
-  "categories": {
-    "woodenware": {
-      "header": "All woodenware is handcrafted in our Michigan shop. Custom dimensions available upon inquiry."
-    },
-    "honey": {
-      "header": "Raw, unfiltered honey straight from our apiary. Seasonal availability applies."
-    },
-    "candles": {
-      "header": "100% pure beeswax candles, hand-poured in small batches."
-    }
-  },
   "products": [
+    {
+      "id": "reversible-bottom-board",
+      "name": "Reversible Bottom Board",
+      "category": "woodenware",
+      "description": "Solid pine reversible bottom board. Crafted for maximum durability to support heavy hives during the nectar flow.",
+      "images": [
+        {
+          "url": "/src/assets/reversible-bottom-board.jpg",
+          "alt": "Solid reversible bottom board"
+        }
+      ],
+      "variants": [
+        {
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 30.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
+          "price": 30.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "deluxe-miller-hive-feeder",
+      "name": "Deluxe Miller Hive Feeder",
+      "category": "woodenware",
+      "description": "High-capacity top feeder featuring the classic Miller design for efficient, drown-free syrup feeding in the spring and fall.",
+      "images": [
+        {
+          "url": "/src/assets/feeder.jpg",
+          "alt": "Deluxe Miller Hive Feeder"
+        }
+      ],
+      "variants": [
+        {
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 50.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
+          "price": 50.00,
+          "status": "ready_now"
+        }
+      ]
+    },
     {
       "id": "deep-hive-body",
       "name": "Deep Hive Body",
@@ -18,29 +59,195 @@
       "description": "Commercial grade pine hive body. Built with precision box joints for maximum durability. Ideal for overwintering in northern climates.",
       "images": [
         {
-          "url": "/src/assets/hero.jpg",
+          "url": "/src/assets/deep-hive-body.jpg",
           "alt": "10-frame deep hive body exterior"
-        },
-        {
-          "url": "/src/assets/bee-hives.jpg",
-          "alt": "Hive bodies in a snowy field"
-        },
-        {
-          "url": "/src/assets/inner-cover.jpg",
-          "alt": "Wooden inner cover accessory"
         }
       ],
       "variants": [
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 45.00,
+          "price": 30.00,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 45.00,
+          "price": 30.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "winter-candy-board",
+      "name": "Winter Candy Board",
+      "category": "woodenware",
+      "description": "Essential winter feeding board designed to hold supplemental sugar candy for your colony during harsh Michigan winters.",
+      "images": [
+        {
+          "url": "/src/assets/candy-board.jpg",
+          "alt": "Winter candy board"
+        }
+      ],
+      "variants": [
+        {
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 20.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
+          "price": 20.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "standard-inner-cover",
+      "name": "Standard Inner Cover",
+      "category": "woodenware",
+      "description": "Standard wooden inner cover providing essential ventilation and spacing under the telescoping lid.",
+      "images": [
+        {
+          "url": "/src/assets/inner-cover.jpg",
+          "alt": "Standard Inner Cover"
+        }
+      ],
+      "variants": [
+        {
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 20.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
+          "price": 20.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "deep-frames-black",
+      "name": "Deep Frames - Black Foundation",
+      "category": "woodenware",
+      "description": "Fully assembled pine deep frames outfitted with heavy-duty black foundation, making it extremely easy to spot white eggs and larvae during hive inspections.",
+      "images": [
+        {
+          "url": "/src/assets/deep-wood-frame.jpg",
+          "alt": "Assembled Deep Frame with Black Foundation"
+        }
+      ],
+      "variants": [
+        {
+          "id": "assembled",
+          "label": "Assembled",
+          "price": 5.50,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "insulated-telescoping-outer-cover",
+      "name": "Insulated Telescoping Outer Cover",
+      "category": "woodenware",
+      "description": "Heavy-duty metal-capped telescoping cover featuring built-in insulation to protect your hive from extreme temperature swings in both summer and winter.",
+      "images": [
+        {
+          "url": "/src/assets/outer-cover.jpg",
+          "alt": "Insulated Telescoping Outer Cover"
+        },
+        {
+          "url": "/src/assets/outer-cover-1.jpg",
+          "alt": "Underside of insulated cover"
+        },
+        {
+          "url": "/src/assets/covers.jpg",
+          "alt": "Outer covers set"
+        }
+      ],
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "price": 40.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "standard-medium-hive-body",
+      "name": "Standard Medium 6 ⅝\" Hive Body (Apiary Overstock)",
+      "category": "woodenware",
+      "description": "Premium medium super box perfectly milled for 6 ⅝\" frames. Currently offered at a discount as genuine apiary overstock.",
+      "images": [
+        {
+          "url": "/src/assets/medium-hive-body.jpg",
+          "alt": "Medium Hive Body"
+        }
+      ],
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard Size",
+          "price": 30.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "screened-bottom-board",
+      "name": "Screened Bottom Board",
+      "category": "woodenware",
+      "description": "Premium screened bottom board providing critical ventilation and aiding in natural varroa mite management protocols.",
+      "images": [
+        {
+          "url": "/src/assets/screened-bottom-board.jpg",
+          "alt": "Screened Bottom Board"
+        },
+        {
+          "url": "/src/assets/screened-bottom-board-1.jpg",
+          "alt": "Screen mesh detail"
+        },
+        {
+          "url": "/src/assets/screened-bottom-board-2.jpg",
+          "alt": "Screened board alternate view"
+        }
+      ],
+      "variants": [
+        {
+          "id": "8-frame",
+          "label": "8-Frame",
+          "price": 40.00,
+          "status": "ready_now"
+        },
+        {
+          "id": "10-frame",
+          "label": "10-Frame",
+          "price": 40.00,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "medium-frames-white",
+      "name": "Medium Frames - White Foundation",
+      "category": "woodenware",
+      "description": "Fully assembled pine medium frames featuring classic white foundation. Built durable and perfect for heavy honey supers.",
+      "images": [
+        {
+          "url": "/src/assets/medium-wood-frame.jpg",
+          "alt": "Assembled Medium Frame with White Foundation"
+        }
+      ],
+      "variants": [
+        {
+          "id": "assembled",
+          "label": "Assembled",
+          "price": 5.50,
           "status": "ready_now"
         }
       ]
@@ -49,11 +256,11 @@
       "id": "wildflower-honey",
       "name": "Raw Wildflower Honey",
       "category": "honey",
-      "description": "Pure, unprocessed wildflower honey. Harvested late summer for a robust, complex flavor profile profile.",
+      "description": "Pure, unprocessed wildflower honey. Harvested late summer for a robust, complex flavor profile.",
       "images": [
         {
           "url": "/src/assets/honey-jar.jpg",
-          "alt": "1lb Classic glass jar of golden honey"
+          "alt": "Classic glass jar of golden honey"
         }
       ],
       "variants": [
