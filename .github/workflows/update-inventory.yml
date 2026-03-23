@@ -16,7 +16,9 @@ jobs:
         with:
           # Assumes the user stored their generated PAT in GitHub Secrets as JULES_SERVICE_TOKEN
           # Required to allow an automated commit bypassing standard 'guest' restrictions
-          token: ${{ secrets.JULES_SERVICE_TOKEN || github.token }} 
+          token: ${{ secrets.JULES_SERVICE_TOKEN || github.token }}
+          # Dynamically check out whichever branch the Admin Portal requests!
+          ref: ${{ github.event.client_payload.target_branch || github.event.repository.default_branch }}
           
       - name: Setup Node.js Node Runtime
         uses: actions/setup-node@v4
@@ -61,8 +63,10 @@ jobs:
           git config --global user.email "bot@laurievillefarms.com"
           git add src/data/products.json
           git commit -m "chore(inventory): updated ${PAYLOAD_PRODUCT_ID} ${PAYLOAD_VARIANT_ID} to ${PAYLOAD_NEW_STATUS}" || exit 0
-          git push
+          # Push specifically to the target branch that was checked out
+          git push origin HEAD:${PAYLOAD_TARGET_BRANCH}
         env:
           PAYLOAD_PRODUCT_ID: ${{ github.event.client_payload.product_id }}
           PAYLOAD_VARIANT_ID: ${{ github.event.client_payload.variant_id }}
           PAYLOAD_NEW_STATUS: ${{ github.event.client_payload.new_status }}
+          PAYLOAD_TARGET_BRANCH: ${{ github.event.client_payload.target_branch || github.event.repository.default_branch }}

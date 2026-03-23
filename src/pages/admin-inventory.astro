@@ -6,8 +6,17 @@ import catalogData from '../data/products.json';
 <BaseLayout pageTitle="Private Inventory Manager | Laurieville Farms">
   <div class="admin-wrapper" id="admin-application" style="display: none;">
     <header class="admin-header">
-      <h1>Workshop Interface</h1>
-      <p class="status-indicator">Connection: <span id="auth-status">Authenticating...</span></p>
+      <div class="header-left">
+        <h1>Workshop Interface</h1>
+        <p class="status-indicator">Connection: <span id="auth-status">Authenticating...</span></p>
+      </div>
+      <div class="header-right">
+        <label for="env-selector" class="env-label">Target Env:</label>
+        <select id="env-selector" class="env-select">
+          <option value="develop">Development (Testing)</option>
+          <option value="main">Production (Live Web)</option>
+        </select>
+      </div>
     </header>
 
     <div class="admin-grid">
@@ -102,6 +111,28 @@ import catalogData from '../data/products.json';
     font-size: 1.5rem;
   }
 
+  .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .env-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #666;
+  }
+
+  .env-select {
+    padding: 0.5rem;
+    border: 2px solid var(--color-charcoal, #212121);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    background-color: white;
+  }
+
   .status-indicator {
     font-size: 0.85rem;
     background: #e8f5e9;
@@ -109,6 +140,7 @@ import catalogData from '../data/products.json';
     border-radius: 4px;
     color: #2e7d32;
     font-weight: bold;
+    margin-top: 0.5rem;
   }
 
   .admin-grid {
@@ -287,6 +319,7 @@ import catalogData from '../data/products.json';
 
     // Action Dispatch Logic
     const actionBtns = document.querySelectorAll('.action-btn');
+    const envSelector = document.getElementById('env-selector') as HTMLSelectElement;
     
     actionBtns.forEach(btn => {
       btn.addEventListener('click', async (e) => {
@@ -294,6 +327,7 @@ import catalogData from '../data/products.json';
         const productId = target.getAttribute('data-product');
         const variantId = target.getAttribute('data-variant');
         const newStatus = target.getAttribute('data-status');
+        const targetBranch = envSelector ? envSelector.value : 'main';
         
         // Visual feedback
         const originalText = target.textContent;
@@ -313,7 +347,8 @@ import catalogData from '../data/products.json';
               client_payload: {
                 product_id: productId,
                 variant_id: variantId,
-                new_status: newStatus
+                new_status: newStatus,
+                target_branch: targetBranch
               }
             })
           });
