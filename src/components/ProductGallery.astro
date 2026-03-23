@@ -238,8 +238,7 @@ const validImages = optimizedImages.filter(img => img.metadata !== null);
 </style>
 
 <script>
-  // Setup interactivity after Astro hydration
-  document.addEventListener('DOMContentLoaded', () => {
+  const initGallery = () => {
     const mainImg = document.getElementById('main-image') as HTMLImageElement;
     const stageWrapper = document.getElementById('gallery-mainStage');
     const thumbBtns = document.querySelectorAll('.thumb-btn');
@@ -252,17 +251,12 @@ const validImages = optimizedImages.filter(img => img.metadata !== null);
 
     if (!mainImg) return;
 
-    // Cross-fade Thumbnail Click Logic
+    // Instant Swap Logic (removed artificial 200ms delay)
     thumbBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const newSrc = btn.getAttribute('data-image');
-        if (newSrc) {
-          mainImg.style.opacity = '0';
-          setTimeout(() => {
-            mainImg.src = newSrc;
-            mainImg.style.opacity = '1';
-          }, 200);
-
+        if (newSrc && mainImg.src !== newSrc) {
+          mainImg.src = newSrc;
           thumbBtns.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
         }
@@ -296,5 +290,20 @@ const validImages = optimizedImages.filter(img => img.metadata !== null);
         closeLightbox();
       }
     });
-  });
+
+    // Background High-Res Image Preloader Cache
+    // After 500ms (letting the critical CSS/HTML load first), quietly fetch the heavy images over the network
+    setTimeout(() => {
+      thumbBtns.forEach(btn => {
+        const hqSrc = btn.getAttribute('data-image');
+        if (hqSrc) {
+          const preloader = new Image();
+          preloader.src = hqSrc;
+        }
+      });
+    }, 500);
+  };
+
+  initGallery();
+  document.addEventListener('astro:page-load', initGallery);
 </script>

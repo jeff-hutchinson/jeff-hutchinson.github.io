@@ -260,8 +260,9 @@ const { product } = Astro.props;
 </style>
 
 <script>
-  // Isolate JS to run after Astro hydration
-  document.addEventListener('DOMContentLoaded', () => {
+  // Astro <script> tags are injected as type="module", so they automatically defer execution until the DOM is parsed.
+  // We do not need a DOMContentLoaded wrapper here.
+  const initLogic = () => {
     const selectEl = document.getElementById('variant-select') as HTMLSelectElement;
     const revealArea = document.getElementById('dynamic-reveal');
     const priceText = document.getElementById('dynamic-price');
@@ -309,5 +310,8 @@ const { product } = Astro.props;
         revealArea.classList.add('active');
       }
     });
-  });
+  };
+
+  initLogic();
+  document.addEventListener('astro:page-load', initLogic);
 </script>
