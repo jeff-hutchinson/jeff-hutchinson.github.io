@@ -5,13 +5,14 @@ import catalogData from '../../../data/products.json';
 
 // Astro's SSG function to generate the raw URLs mathematically
 export function getStaticPaths() {
-  const categories = Object.keys(catalogData.categories);
-  return categories.map((cat) => ({
+  // Extract all unique categories directly from the products array natively
+  const uniqueCategories = [...new Set(catalogData.products.map((p: any) => p.category))];
+  
+  return uniqueCategories.map((cat) => ({
     params: { category: cat },
     props: { 
-      // @ts-ignore
-      categoryData: catalogData.categories[cat],
-      products: catalogData.products.filter(p => p.category === cat)
+      categoryData: { header: `Explore our premium collection of handcrafted ${cat}.` },
+      products: catalogData.products.filter((p: any) => p.category === cat)
     }
   }));
 }
