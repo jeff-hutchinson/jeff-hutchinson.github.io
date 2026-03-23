@@ -20,9 +20,6 @@ const minPrice = Math.min(...prices);
 const maxPrice = Math.max(...prices);
 const isUniformPrice = minPrice === maxPrice;
 
-// Status check: add a badge if ANY variant is currently ready for pickup/shipping
-const hasReadyNow = product.variants.some((v: any) => v.status === "ready_now");
-
 // Compute the clean SEO URL slug purely from the JSON identifiers
 const productUrl = `/products/${product.category}/${product.id}`;
 ---
@@ -34,8 +31,6 @@ const productUrl = `/products/${product.category}/${product.id}`;
     ) : (
        <div class="missing-image-fallback">Image Not Found</div>
     )}
-    
-    {hasReadyNow && <span class="badge ready-badge">Available Now</span>}
   </div>
   
   <div class="card-content">

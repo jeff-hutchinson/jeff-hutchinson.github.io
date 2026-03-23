@@ -36,10 +36,8 @@ const { product } = Astro.props;
         <h1 class="product-title">{product.name}</h1>
         <p class="product-description">{product.description}</p>
 
-        <!-- Hidden Data Island for strict separation of concerns (Wix compatibility) -->
-        <script type="application/json" id="product-variants-data">
-          {JSON.stringify(product.variants)}
-        </script>
+        <!-- Safely injected Data Island natively escaping XSS and preserving array structures -->
+        <script type="application/json" id="product-variants-data" set:html={JSON.stringify(product.variants)}></script>
         
         <div class="selection-area">
           <label for="variant-select" class="dropdown-label">Select Option:</label>
@@ -205,13 +203,17 @@ const { product } = Astro.props;
   }
 
   .badge {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: bold;
-    border-radius: 4px;
+    padding: 0.75rem 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    border-radius: 6px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid rgba(0,0,0,0.05);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Status Styles aligning with User Guidelines */
@@ -259,59 +261,62 @@ const { product } = Astro.props;
   }
 </style>
 
-<script>
-  // Astro <script> tags are injected as type="module", so they automatically defer execution until the DOM is parsed.
-  // We do not need a DOMContentLoaded wrapper here.
-  const initLogic = () => {
-    const selectEl = document.getElementById('variant-select') as HTMLSelectElement;
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectEl = document.getElementById('variant-select');
     const revealArea = document.getElementById('dynamic-reveal');
     const priceText = document.getElementById('dynamic-price');
     const badgeEl = document.getElementById('dynamic-status-badge');
-    const inquireBtn = document.getElementById('inquire-btn') as HTMLAnchorElement;
-    
-    // Ingest the decoupled JSON data island 
+    const inquireBtn = document.getElementById('inquire-btn');
     const dataIsland = document.getElementById('product-variants-data');
+
     if (!selectEl || !dataIsland) return;
     
-    // Parse the injected variants
-    const variants = JSON.parse(dataIsland.textContent || '[]');
-    const productName = document.querySelector('.product-title')?.textContent || 'Product';
+    // Parse the injected variants safely
+    let variants = [];
+    try {
+      variants = JSON.parse(dataIsland.textContent || '[]');
+    } catch(e) {
+      console.error('Failed to parse variant data.');
+    }
+
+    const titleEl = document.querySelector('.product-title');
+    const productName = titleEl ? titleEl.textContent : 'Product';
 
     // Status Map linking JSON keys to visual UI rendering
-    const statusMap: Record<string, { label: string, currentClass: string }> = {
+    const statusMap = {
       'ready_now': { label: 'Available for Pickup', currentClass: 'ready' },
       'custom_build': { label: 'Handcrafted to Order', currentClass: 'custom' },
       'low_stock': { label: 'Limited Availability', currentClass: 'low' },
       'unavailable': { label: 'Currently Unavailable', currentClass: 'out' }
     };
 
-    selectEl.addEventListener('change', (e) => {
-      const target = e.target as HTMLSelectElement;
-      const selectedId = target.value;
-      const variant = variants.find((v: any) => v.id === selectedId);
+    selectEl.addEventListener('change', function(e) {
+      const selectedId = e.target.value;
+      const variant = variants.find(v => v.id === selectedId);
 
       if (variant && revealArea && priceText && badgeEl && inquireBtn) {
         // 1. Inject Accurate Price
-        priceText.textContent = `$${parseFloat(variant.price).toFixed(2)}`;
+        priceText.textContent = '$' + parseFloat(variant.price).toFixed(2);
 
         // 2. Inject Accurate Status Badge
         const statusConfig = statusMap[variant.status] || statusMap['custom_build'];
         badgeEl.textContent = statusConfig.label;
-        badgeEl.className = `badge ${statusConfig.currentClass}`;
+        badgeEl.className = 'badge ' + statusConfig.currentClass;
 
         // 3. Pre-fill the specific Inquiry Email Payload
-        const subject = encodeURIComponent(`Inquiry: ${productName} - ${variant.label}`);
+        const subject = encodeURIComponent('Inquiry: ' + productName + ' - ' + variant.label);
         const body = encodeURIComponent(
-          `Hello Laurieville Farms,\n\nI am interested in ordering the following handcrafted item:\n\nProduct: ${productName}\nOption: ${variant.label}\nPrice: $${parseFloat(variant.price).toFixed(2)}\n\nPlease let me know your current production timeline and pickup availability.\n\nThank you!`
+          'Hello Laurieville Farms,\n\nI am interested in ordering the following handcrafted item:\n\nProduct: ' + productName + '\nOption: ' + variant.label + '\nPrice: $' + parseFloat(variant.price).toFixed(2) + '\n\nPlease let me know your current production timeline and pickup availability.\n\nThank you!'
         );
-        inquireBtn.href = `mailto:info@laurievillefarms.com?subject=${subject}&body=${body}`;
+        inquireBtn.href = 'mailto:info@laurievillefarms.com?subject=' + subject + '&body=' + body;
 
-        // 4. Trigger UI Expansion Animation
+        // 4. Trigger UI Expansion Animation natively with CSS class, appending fallback inline styles
         revealArea.classList.add('active');
+        revealArea.style.opacity = '1';
+        revealArea.style.visibility = 'visible';
+        revealArea.style.height = 'auto';
       }
     });
-  };
-
-  initLogic();
-  document.addEventListener('astro:page-load', initLogic);
+  });
 </script>
