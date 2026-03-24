@@ -1,4 +1,16 @@
 ---
+// src/components/Header.astro
+import catalogData from '../data/products.json';
+
+// Dynamically extract categories to perfectly sync the frontend navigation to the Master JSON
+const uniqueCategories = [...new Set(catalogData.products.map((p: any) => p.category))];
+
+// Fallback label maps for cleaner UI presentation of raw keys
+const categoryLabels: Record<string, string> = {
+  'honey': 'Honey & Sweets',
+  'candles': 'Beeswax & Candles',
+  'woodenware': 'Beekeeping Supplies'
+};
 ---
 <header class="site-header">
   <div class="header-container">
@@ -21,9 +33,13 @@
             Products <span class="arrow">▼</span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="/products/honey">Honey & Sweets</a></li>
-            <li><a href="/products/candles">Beeswax & Candles</a></li>
-            <li><a href="/coming-soon">Beekeeping Supplies</a></li>
+            {uniqueCategories.map(cat => (
+              <li>
+                <a href={`/products/${cat}`}>
+                  {categoryLabels[cat] || cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </a>
+              </li>
+            ))}
           </ul>
         </li>
         <li><a href="/info">About</a></li>

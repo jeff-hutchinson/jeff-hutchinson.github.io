@@ -1,4 +1,15 @@
 ---
+// src/components/Footer.astro
+import catalogData from '../data/products.json';
+
+// Dynamically extract categories to perfectly sync the footer navigation to the Master JSON
+const uniqueCategories = [...new Set(catalogData.products.map((p: any) => p.category))];
+
+const categoryLabels: Record<string, string> = {
+  'honey': 'Honey & Sweets',
+  'candles': 'Beeswax & Candles',
+  'woodenware': 'Beekeeping Supplies'
+};
 ---
 <footer class="site-footer">
   <div class="footer-container">
@@ -17,9 +28,9 @@
       <h3>Quick Links</h3>
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/products/honey">Honey & Sweets</a></li>
-        <li><a href="/products/candles">Beeswax & Candles</a></li>
-        <li><a href="/coming-soon">Beekeeping Supplies</a></li>
+        {uniqueCategories.map(cat => (
+          <li><a href={`/products/${cat}`}>{categoryLabels[cat] || cat.charAt(0).toUpperCase() + cat.slice(1)}</a></li>
+        ))}
         <li><a href="/coming-soon">Find Us</a></li>
         <li><a href="/info">About</a></li>
       </ul>

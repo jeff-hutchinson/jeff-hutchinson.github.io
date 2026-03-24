@@ -1,0 +1,102 @@
+name: Update Inventory Status
+
+on:
+  repository_dispatch:
+    types: [update_inventory]
+
+# Ensure only one update runs at a time to strictly prevent git checkout race conditions
+concurrency:
+  group: inventory-update
+  cancel-in-progress: false
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Assumes the user stored their generated PAT in GitHub Secrets as JULES_SERVICE_TOKEN
+          # Required to allow an automated commit bypassing standard 'guest' restrictions
+          token: ${{ secrets.JULES_SERVICE_TOKEN || github.token }}
+          # Dynamically check out whichever branch the Admin Portal requests!
+          ref: ${{ github.event.client_payload.target_branch || github.event.repository.default_branch }}
+          
+      - name: Setup Node.js Node Runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Parse and Mutate Master JSON
+        run: |
+          node -e "
+            const fs = require('fs');
+            const path = './src/data/products.json';
+            const data = JSON.parse(fs.readFileSync(path, 'utf8'));
+            
+            const productId = process.env.PAYLOAD_PRODUCT_ID;
+            const variantId = process.env.PAYLOAD_VARIANT_ID;
+            const newStatus = process.env.PAYLOAD_NEW_STATUS;
+            
+            const product = data.products.find(p => p.id === productId);
+            if (product) {
+              const variant = product.variants.find(v => v.id === variantId);
+              if (variant) {
+                variant.status = newStatus;
+                fs.writeFileSync(path, JSON.stringify(data, null, 2));
+                console.log('Success: JSON file overwritten correctly.');
+              } else {
+                console.error('API Error: Variant not found - ' + variantId);
+                process.exit(1);
+              }
+            } else {
+              console.error('API Error: Product not found - ' + productId);
+              process.exit(1);
+            }
+          "
+        env:
+          PAYLOAD_PRODUCT_ID: ${{ github.event.client_payload.product_id }}
+          PAYLOAD_VARIANT_ID: ${{ github.event.client_payload.variant_id }}
+          PAYLOAD_NEW_STATUS: ${{ github.event.client_payload.new_status }}
+          
+      - name: Commit Status Overwrite to Repository
+        run: |
+          git config --global user.name "Lauriville Inventory Bot"
+          git config --global user.email "bot@laurievillefarms.com"
+          
+          # We use a single persistent staging branch so multiple clicks don't spam Pull Requests!
+          BRANCH_NAME="bot/inventory-staging"
+          
+          # Check if the branch already exists on the remote
+          git fetch origin
+          if git ls-remote --exit-code --heads origin $BRANCH_NAME; then
+            # Branch exists, check it out and pull the latest commits so we don't overwrite previous clicks
+            git checkout $BRANCH_NAME
+            git pull origin $BRANCH_NAME
+          else
+            # Branch doesn't exist, create it from develop
+            git checkout -b $BRANCH_NAME
+          fi
+          
+          git add src/data/products.json
+          git commit -m "chore(inventory): updated ${PAYLOAD_PRODUCT_ID} ${PAYLOAD_VARIANT_ID} to ${PAYLOAD_NEW_STATUS}" || exit 0
+          
+          # Push the appended commit to the staging branch
+          git push -u origin $BRANCH_NAME
+          
+          # Attempt to open a PR. If it already exists, this safely fails silently and just updates the open PR!
+          gh pr create \
+            --title "Inventory Updates Queue" \
+            --body "Automated inventory changes requested by the Admin Portal. Please review and merge the bundled updates." \
+            --base ${PAYLOAD_TARGET_BRANCH} \
+            --head $BRANCH_NAME || echo "PR already exists! Appended commit to the active PR."
+        env:
+          GH_TOKEN: ${{ secrets.INVENTORY_BOT_TOKEN || github.token }}
+          PAYLOAD_PRODUCT_ID: ${{ github.event.client_payload.product_id }}
+          PAYLOAD_VARIANT_ID: ${{ github.event.client_payload.variant_id }}
+          PAYLOAD_NEW_STATUS: ${{ github.event.client_payload.new_status }}
+          PAYLOAD_TARGET_BRANCH: ${{ github.event.client_payload.target_branch || github.event.repository.default_branch }}

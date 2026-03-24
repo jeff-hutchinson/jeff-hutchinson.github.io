@@ -1,0 +1,21 @@
+---
+// This route acts as a simple redirection layer for users who navigate directly to /products
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0;url=/products/woodenware" />
+    <title>Redirecting to Catalog...</title>
+</head>
+<body>
+    <BaseLayout pageTitle="Products | Laurieville Farms">
+        <section style="text-align: center; padding: 10vh 20px;">
+            <h1>Redirecting to Catalog...</h1>
+            <p>If you are not redirected automatically, <a href="/products/woodenware" style="color: var(--color-gold);">click here</a>.</p>
+        </section>
+    </BaseLayout>
+</body>
+</html>

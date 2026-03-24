@@ -1,0 +1,426 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductGallery from '../../../components/ProductGallery.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Generate all individual product URLs dynamically
+export function getStaticPaths() {
+  const catalogPath = path.resolve(process.cwd(), 'src/data/products.json');
+  const catalogData = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
+  return catalogData.products.map((product) => ({
+    params: { 
+      category: product.category,
+      slug: product.id 
+    },
+    props: { product }
+  }));
+}
+
+const { product } = Astro.props;
+
+// Dynamic Markdown-like Parser for raw JSON string dumps
+let formattedDescription = product.description || '';
+// Keep existing explicit breaks if any
+formattedDescription = formattedDescription.replace(/\n/g, '<br/>');
+// Aggressively match Headers (Capital word(s) ending in a colon followed by space) and bold them
+formattedDescription = formattedDescription.replace(/([A-Z][a-zA-Z0-9\s\-]+?:)(\s)/g, '<br/><br/><strong>$1</strong>$2');
+// Clean up any double breaks at the very beginning of the string
+formattedDescription = formattedDescription.replace(/^(<br\/>\s*)+/, '');
+---
+<BaseLayout pageTitle={`${product.name} | Laurieville Farms`}>
+  <div class="product-page-wrapper">
+    
+    <!-- Clean Breadcrumb Navigation -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/products/woodenware" class="capitalize">{product.category}</a> &gt; 
+      <span class="current-page">{product.name}</span>
+    </nav>
+
+    <!-- Main Title Spanning Full Width -->
+    <h1 class="product-title main-title">{product.name}</h1>
+
+    <div class="product-grid">
+      <div class="left-col">
+        <!-- Left Column: Image Gallery Component -->
+        <div class="gallery-column">
+          <ProductGallery images={product.images} />
+        </div>
+        
+        <!-- Description Area -->
+        <div class="description-column product-bottom-row">
+          <h2 class="description-heading">Product Description</h2>
+          <p class="product-description" set:html={formattedDescription}></p>
+        </div>
+      </div>
+
+      <div class="right-col">
+        <!-- Right Column: Action Panel & Logic -->
+        <div class="details-column">
+          <!-- Safely injected Data Island natively escaping XSS and preserving array structures -->
+          <script type="application/json" id="product-variants-data" set:html={JSON.stringify(product.variants)}></script>
+          
+          <div class="selection-area">
+            <label for="variant-select" class="dropdown-label">Select Option:</label>
+            <select id="variant-select" class="custom-select">
+              <option value="" disabled selected>Choose a size/variant...</option>
+              {product.variants.map((v: any) => (
+                <option value={v.id}>{v.label}</option>
+              ))}
+            </select>
+
+            <!-- Dynamic Reveal Area (Hidden until valid selection is made) -->
+            <div id="dynamic-reveal" class="hidden-reveal">
+              <div class="price-status-row">
+                <span id="dynamic-price" class="price-text"></span>
+                <span id="dynamic-status-badge" class="badge"></span>
+              </div>
+              
+              <!-- Future Wix Cart Extensible Wrapper -->
+              <div class="cart-wrapper" id="cart-action-container">
+                <a href="#" id="inquire-btn" class="inquire-btn">
+                  Inquire to Order
+                </a>
+                <p class="inquiry-note">No payment required. We will reply to your email with timeline and pickup coordination.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Universal Volume Savings Displayed For All Products -->
+          <div class="volume-savings-container">
+            <h3>Bulk Apiary Savings</h3>
+            <p>Expand your setup and save on your total order. Discounts are applied automatically at checkout:</p>
+            <ul>
+              <li><strong>5% Off</strong> orders over $100</li>
+              <li><strong>10% Off</strong> orders over $200</li>
+              <li><strong>15% Off</strong> orders over $300</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .product-page-wrapper {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 6rem;
+    color: var(--color-charcoal, #212121);
+  }
+
+  .breadcrumb {
+    font-size: 0.95rem;
+    margin-bottom: 3rem;
+    color: #666;
+    font-family: var(--font-sans, "Helvetica", sans-serif);
+  }
+  
+  .breadcrumb a {
+    color: var(--color-gold, #E8A50E);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  
+  .capitalize {
+    text-transform: capitalize;
+  }
+
+  .current-page {
+    color: var(--color-charcoal, #212121);
+    font-weight: bold;
+  }
+
+  /* Mobile-first: Break wrappers and use flex ordering */
+  .product-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  
+  .left-col, .right-col {
+    display: contents; /* Removes the wrapper dynamically on Mobile */
+  }
+
+  .gallery-column { order: 1; }
+  .details-column { order: 2; }
+  .volume-savings-container { order: 3; margin-top: 0; }
+  .description-column { order: 4; }
+
+  @media (min-width: 900px) {
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: start; /* Now safe to use because columns are independent wrappers! */
+    }
+    
+    .left-col, .right-col {
+      display: flex; /* Enforces absolute isolation on Desktop */
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .gallery-column, .details-column, .volume-savings-container, .description-column {
+      order: unset; /* Reset explicit ordering for desktop DOM flow */
+    }
+  }
+
+  .main-title { 
+    display: block; 
+    margin-bottom: 2rem; 
+  }
+
+  .product-title {
+    font-family: var(--font-serif, "Georgia", serif);
+    font-size: 2.5rem;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.2;
+    color: var(--color-charcoal, #212121);
+  }
+
+  .product-bottom-row {
+    margin-top: 0;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--color-gold, #E8A50E);
+  }
+
+  .volume-savings-container {
+    background-color: #fcebd2;
+    border-left: 4px solid var(--color-gold, #E8A50E);
+    padding: 1.5rem;
+    border-radius: 4px;
+    color: var(--color-charcoal, #212121);
+  }
+
+  .volume-savings-container h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.4rem;
+    color: var(--color-gold, #E8A50E);
+  }
+
+  .volume-savings-container p {
+    margin: 0 0 1rem 0;
+  }
+
+  .volume-savings-container ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .description-heading {
+    font-family: var(--font-serif, "Georgia", serif);
+    font-size: 2rem;
+    color: var(--color-charcoal, #212121);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .product-description {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #444;
+    white-space: pre-line;
+  }
+
+  /* Interactive Form Area */
+  .selection-area {
+    background-color: #f7f3ec; /* Soft cream for visual separation */
+    padding: 2.5rem 2rem;
+    border-radius: 8px;
+    border: 1px solid #e0d8c8;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .dropdown-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+  }
+
+  .custom-select {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    font-family: var(--font-sans, "Helvetica", sans-serif);
+    transition: border-color 0.2s ease;
+  }
+
+  .custom-select:focus {
+    outline: none;
+    border-color: var(--color-gold, #E8A50E);
+  }
+
+  /* CSS Animation for Revealing Context Data */
+  .hidden-reveal {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 0;
+    overflow: hidden;
+  }
+
+  .hidden-reveal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    height: auto;
+    overflow: visible;
+    margin-top: 2rem;
+  }
+
+  .price-status-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;       /* Ensures it drops to next line if screen gets too narrow */
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .price-text {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: var(--color-charcoal, #212121);
+    line-height: 1; /* Prevents invisible text box from pushing the badge weirdly */
+  }
+
+  .badge {
+    padding: 0.75rem 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 900;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid rgba(0,0,0,0.05);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Status Styles aligning with User Guidelines */
+  .badge.ready { background-color: #2e7d32; color: #fff; }
+  .badge.custom { background-color: #1976d2; color: #fff; }
+  .badge.low { background-color: #f57c00; color: #fff; }
+  .badge.out { background-color: #757575; color: #fff; }
+
+  .cart-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .inquire-btn {
+    display: block;
+    width: 100%;
+    /* Accent Impact Zone: Gold button, Charcoal text */
+    background-color: var(--color-gold, #E8A50E);
+    color: var(--color-charcoal, #212121);
+    text-align: center;
+    padding: 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 6px rgba(232, 165, 14, 0.2);
+  }
+
+  .inquire-btn:hover {
+    background-color: #d1940b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(232, 165, 14, 0.3);
+  }
+
+  .inquiry-note {
+    font-size: 0.9rem;
+    color: #555;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectEl = document.getElementById('variant-select');
+    const revealArea = document.getElementById('dynamic-reveal');
+    const priceText = document.getElementById('dynamic-price');
+    const badgeEl = document.getElementById('dynamic-status-badge');
+    const inquireBtn = document.getElementById('inquire-btn');
+    const dataIsland = document.getElementById('product-variants-data');
+
+    if (!selectEl || !dataIsland) return;
+    
+    // Parse the injected variants safely
+    let variants = [];
+    try {
+      variants = JSON.parse(dataIsland.textContent || '[]');
+    } catch(e) {
+      console.error('Failed to parse variant data.');
+    }
+
+    const titleEl = document.querySelector('.product-title');
+    const productName = titleEl ? titleEl.textContent : 'Product';
+
+    // Status Map linking JSON keys to visual UI rendering
+    const statusMap = {
+      'ready_now': { label: 'Available for Pickup', currentClass: 'ready' },
+      'custom_build': { label: 'Handcrafted to Order', currentClass: 'custom' },
+      'low_stock': { label: 'Limited Availability', currentClass: 'low' },
+      'unavailable': { label: 'Currently Unavailable', currentClass: 'out' }
+    };
+
+    // Auto-Select logic if there is only 1 variant available
+    if (variants.length === 1) {
+      selectEl.value = variants[0].id;
+      // Delay dispatch slightly to ensure DOM is ready
+      setTimeout(() => { selectEl.dispatchEvent(new Event('change')); }, 50);
+    }
+
+    selectEl.addEventListener('change', function(e) {
+      const selectedId = e.target.value;
+      const variant = variants.find(v => v.id === selectedId);
+
+      if (variant && revealArea && priceText && badgeEl && inquireBtn) {
+        // 1. Inject Accurate Price
+        priceText.textContent = '$' + parseFloat(variant.price).toFixed(2);
+
+        // 2. Inject Accurate Status Badge
+        const statusConfig = statusMap[variant.status] || statusMap['custom_build'];
+        badgeEl.textContent = statusConfig.label;
+        badgeEl.className = 'badge ' + statusConfig.currentClass;
+
+        // 3. Pre-fill the specific Inquiry Email Payload
+        const subject = encodeURIComponent('Inquiry: ' + productName + ' - ' + variant.label);
+        const body = encodeURIComponent(
+          'Hello Laurieville Farms,\n\nI am interested in ordering the following handcrafted item:\n\nProduct: ' + productName + '\nOption: ' + variant.label + '\nPrice: $' + parseFloat(variant.price).toFixed(2) + '\n\nPlease let me know your current production timeline and pickup availability.\n\nThank you!'
+        );
+        inquireBtn.href = 'mailto:info@laurievillefarms.com?subject=' + subject + '&body=' + body;
+
+        // 4. Trigger UI Expansion Animation natively with CSS class, appending fallback inline styles
+        revealArea.classList.add('active');
+        revealArea.style.opacity = '1';
+        revealArea.style.visibility = 'visible';
+        revealArea.style.height = 'auto';
+      }
+    });
+  });
+</script>
