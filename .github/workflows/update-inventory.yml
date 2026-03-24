@@ -4,6 +4,11 @@ on:
   repository_dispatch:
     types: [update_inventory]
 
+# Ensure only one update runs at a time to strictly prevent git checkout race conditions
+concurrency:
+  group: inventory-update
+  cancel-in-progress: false
+
 jobs:
   update-json:
     runs-on: ubuntu-latest
@@ -63,22 +68,32 @@ jobs:
           git config --global user.name "Lauriville Inventory Bot"
           git config --global user.email "bot@laurievillefarms.com"
           
-          # Create a unique temporary branch for this specific update
-          BRANCH_NAME="bot/inventory-update-${PAYLOAD_PRODUCT_ID}-${PAYLOAD_VARIANT_ID}-${GITHUB_RUN_ID}"
-          git checkout -b $BRANCH_NAME
+          # We use a single persistent staging branch so multiple clicks don't spam Pull Requests!
+          BRANCH_NAME="bot/inventory-staging"
+          
+          # Check if the branch already exists on the remote
+          git fetch origin
+          if git ls-remote --exit-code --heads origin $BRANCH_NAME; then
+            # Branch exists, check it out and pull the latest commits so we don't overwrite previous clicks
+            git checkout $BRANCH_NAME
+            git pull origin $BRANCH_NAME
+          else
+            # Branch doesn't exist, create it from develop
+            git checkout -b $BRANCH_NAME
+          fi
           
           git add src/data/products.json
           git commit -m "chore(inventory): updated ${PAYLOAD_PRODUCT_ID} ${PAYLOAD_VARIANT_ID} to ${PAYLOAD_NEW_STATUS}" || exit 0
           
-          # Push the new branch to the remote
+          # Push the appended commit to the staging branch
           git push -u origin $BRANCH_NAME
           
-          # Auth the GitHub CLI and create the Pull Request automatically
+          # Attempt to open a PR. If it already exists, this safely fails silently and just updates the open PR!
           gh pr create \
-            --title "Inventory Update: ${PAYLOAD_PRODUCT_ID} ${PAYLOAD_VARIANT_ID}" \
-            --body "Automated inventory change requested by the Admin Portal. Updating ${PAYLOAD_VARIANT_ID} status to ${PAYLOAD_NEW_STATUS}." \
+            --title "Inventory Updates Queue" \
+            --body "Automated inventory changes requested by the Admin Portal. Please review and merge the bundled updates." \
             --base ${PAYLOAD_TARGET_BRANCH} \
-            --head $BRANCH_NAME
+            --head $BRANCH_NAME || echo "PR already exists! Appended commit to the active PR."
         env:
           GH_TOKEN: ${{ secrets.INVENTORY_BOT_TOKEN || github.token }}
           PAYLOAD_PRODUCT_ID: ${{ github.event.client_payload.product_id }}
