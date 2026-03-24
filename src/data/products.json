@@ -4,7 +4,7 @@
       "id": "reversible-bottom-board",
       "name": "Reversible Bottom Board",
       "category": "woodenware",
-      "description": "Dual-Season Versatility for Your Hive Our reversible bottom boards provide the flexibility a Michigan beekeeper needs. Featuring a standard 3/4\" opening for the heavy honey flow and a 3/8\" reduced entrance for winter or smaller colonies, this board is built to be the foundation of your hive for years. Construction: Heavy-duty solid wood, assembled with waterproof glue and stainless steel screws for maximum durability. Precision Joinery: Deep rabbeted joints ensure the rails stay square and secure, even under the weight of a full honey crop. Finish: Natural/Unfinished—ready for your choice of paint or exterior sealant. Specify 8-frame or 10-frame when ordering. Volume Savings for Your Apiary: Expand your setup and save on your total order. Discounts are applied automatically at checkout: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Built to support your bees through every season.",
+      "description": "Dual-Season Versatility for Your Hive Our reversible bottom boards provide the flexibility a Michigan beekeeper needs. Featuring a standard 3/4\" opening for the heavy honey flow and a 3/8\" reduced entrance for winter or smaller colonies, this board is built to be the foundation of your hive for years.<br/><br/><strong>Construction:</strong> Heavy-duty solid wood, assembled with waterproof glue and stainless steel screws for maximum durability.<br/><br/><strong>Precision Joinery:</strong> Deep rabbeted joints ensure the rails stay square and secure, even under the weight of a full honey crop.<br/><br/><strong>Finish:</strong> Natural/Unfinished—ready for your choice of paint or exterior sealant. Specify 8-frame or 10-frame when ordering.<br/><br/>",
       "images": [
         {
           "url": "/src/assets/reversible-bottom-board.jpg",
@@ -15,13 +15,13 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 30.00,
+          "price": 30,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 30.00,
+          "price": 30,
           "status": "ready_now"
         }
       ]
@@ -30,7 +30,7 @@
       "id": "deluxe-miller-hive-feeder",
       "name": "Deluxe Miller Hive Feeder",
       "category": "woodenware",
-      "description": "Heavy-Duty Design for Safe, High-Volume Feeding Built to outlast standard commercial equipment, our Miller feeders feature a solid 3/4\" thick board construction for the reservoir base. This eliminates the sagging and cracking common with 1/4\" plywood bottoms, providing a rigid, dependable foundation for your syrup. Suit-Free Feeding: Designed for maximum convenience—because the bees are confined to the central ladder channel, you can refill the reservoirs without bees escaping, making it possible to feed your colony without suiting up. Bees-Safe Design: Integrated wire mesh \"ladders\" allow bees to access syrup through a central channel while staying safe from drowning. Maintenance Focused: The internal hardware cloth assemblies are secured with screws, allowing you to remove them completely for easy cleaning. Note on Photo: The top hardware cloth has been removed in the photo to show the internal ladder structure; the finished unit comes fully screened.",
+      "description": "Heavy-Duty Design for Safe, High-Volume Feeding Built to outlast standard commercial equipment, our Miller feeders feature a solid 3/4\" thick board construction for the reservoir base. This eliminates the sagging and cracking common with 1/4\" plywood bottoms, providing a rigid, dependable foundation for your syrup.<br/><br/><strong>Suit-Free Feeding:</strong> Designed for maximum convenience—because the bees are confined to the central ladder channel, you can refill the reservoirs without bees escaping, making it possible to feed your colony without suiting up.<br/><br/><strong>Bees-Safe Design:</strong> Integrated wire mesh \"ladders\" allow bees to access syrup through a central channel while staying safe from drowning.<br/><br/><strong>Maintenance Focused:</strong> The internal hardware cloth assemblies are secured with screws, allowing you to remove them completely for easy cleaning.<br/><br/><strong>Note on Photo:</strong> The top hardware cloth has been removed in the photo to show the internal ladder structure; the finished unit comes fully screened.",
       "images": [
         {
           "url": "/src/assets/feeder.jpg",
@@ -41,13 +41,13 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 50.00,
+          "price": 50,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 50.00,
+          "price": 50,
           "status": "ready_now"
         }
       ]
@@ -56,7 +56,7 @@
       "id": "deep-hive-body",
       "name": "Deep Hive Body",
       "category": "woodenware",
-      "description": "Built for the Local Apiary Our Deep Hive Bodies are constructed with a focus on long-term structural integrity. While mass-produced boxes often rely on staples or nails, every one of our units is built with waterproof glue and stainless steel screws to ensure they stand up to the rigors of the hive tool and the changing seasons. Construction: Fully assembled with glued joints and stainless steel fasteners. Finish: Natural/Unfinished—ready for your choice of paint, stain, or wax dipping. Note: This listing is for the wooden hive body only. Internal frames and foundation are not included. Volume Savings for Your Apiary: Prepare for spring expansion while saving on your total order. Discounts are applied automatically at checkout: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Equipment built with the durability a beekeeper needs.",
+      "description": "Built for the Local Apiary Our Deep Hive Bodies are constructed with a focus on long-term structural integrity. While mass-produced boxes often rely on staples or nails, every one of our units is built with waterproof glue and stainless steel screws to ensure they stand up to the rigors of the hive tool and the changing seasons.<br/><br/><strong>Construction:</strong> Fully assembled with glued joints and stainless steel fasteners.<br/><br/><strong>Finish:</strong> Natural/Unfinished—ready for your choice of paint, stain, or wax dipping. Note: This listing is for the wooden hive body only. Internal frames and foundation are not included.<br/><br/><strong>Volume Savings for Your Apiary:</strong> ",
       "images": [
         {
           "url": "/src/assets/deep-hive-body.jpg",
@@ -67,13 +67,13 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 30.00,
+          "price": 30,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 30.00,
+          "price": 30,
           "status": "ready_now"
         }
       ]
@@ -82,7 +82,7 @@
       "id": "winter-candy-board",
       "name": "Winter Candy Board",
       "category": "woodenware",
-      "description": "Essential Winter Insurance for Your Colony Our candy boards provide a critical emergency food source during the toughest Michigan winter months. Built with a heavy-duty 3/4\" wooden frame and a recessed hardware cloth floor, this board is designed to hold a solid sugar cake directly above the cluster where the bees need it most. Seamless Integration: This board is designed to work with your existing setup. Simply place the candy board directly above the frames, and place your existing moisture boards, quilts, or covers on top exactly as you would normally. Suit-Free Winter Checks: Because the bees feed from the bottom of the wire mesh, you can quickly check sugar levels or add more feed by simply lifting your outer cover—no need to break the winter cluster or suit up in the cold. Durability: Assembled with waterproof glue and heavy-duty fasteners for reliable seasonal use. Finish: Natural/Unfinished. Volume Savings: 5% Off orders over $100 | 10% Off over $200 | 15% Off over $300",
+      "description": "Essential Winter Insurance for Your Colony Our candy boards provide a critical emergency food source during the toughest Michigan winter months. Built with a heavy-duty 3/4\" wooden frame and a recessed hardware cloth floor, this board is designed to hold a solid sugar cake directly above the cluster where the bees need it most. Seamless Integration: This board is designed to work with your existing setup. Simply place the candy board directly above the frames, and place your existing moisture boards, quilts, or covers on top exactly as you would normally. Suit-Free Winter Checks: Because the bees feed from the bottom of the wire mesh, you can quickly check sugar levels or add more feed by simply lifting your outer cover—no need to break the winter cluster or suit up in the cold. Durability: Assembled with waterproof glue and heavy-duty fasteners for reliable seasonal use.<br/><br/><strong>Finish:</strong> Natural/Unfinished.",
       "images": [
         {
           "url": "/src/assets/candy-board.jpg",
@@ -93,13 +93,13 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 20.00,
+          "price": 20,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 20.00,
+          "price": 20,
           "status": "ready_now"
         }
       ]
@@ -108,7 +108,7 @@
       "id": "standard-inner-cover",
       "name": "Standard Inner Cover",
       "category": "woodenware",
-      "description": "Our inner covers provide essential dead-air space and moisture management for your colony. Each unit is built with rabbeted edges and a deep-set dado to securely lock the center panel into the frame, preventing the sagging often seen in cheaper equipment. Construction: Assembled with waterproof glue; features a housed dado for a superior mechanical bond. Design: Includes a central ventilation notch for airflow and upper hive access. Finish: Natural/Unfinished. Please specify your hive size (8-Frame or 10-Frame) when ordering. Volume Savings for Your Apiary: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Precision-fit gear designed to last.",
+      "description": "Our inner covers provide essential dead-air space and moisture management for your colony. Each unit is built with rabbeted edges and a deep-set dado to securely lock the center panel into the frame, preventing the sagging often seen in cheaper equipment.<br/><br/><strong>Construction:</strong> Assembled with waterproof glue; features a housed dado for a superior mechanical bond. Design: Includes a central ventilation notch for airflow and upper hive access.<br/><br/><strong>Finish:</strong> Natural/Unfinished. Please specify your hive size (8-Frame or 10-Frame) when ordering.<br/><br/><strong>",
       "images": [
         {
           "url": "/src/assets/inner-cover.jpg",
@@ -119,13 +119,13 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 20.00,
+          "price": 20,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 20.00,
+          "price": 20,
           "status": "ready_now"
         }
       ]
@@ -134,7 +134,7 @@
       "id": "deep-frames-black",
       "name": "Deep Frames - Black Foundation",
       "category": "woodenware",
-      "description": "Ready-to-hive wooden frames featuring black plastic foundation for superior egg visibility. Deeply coated in beeswax for rapid draw-out. Skip the assembly and get straight to beekeeping. Laurieville Farms Bulk Savings: Don't get caught without enough room for the honey flow! We offer automatic discounts based on your total order: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Discounts are applied automatically at checkout.",
+      "description": "Ready-to-hive wooden frames featuring black plastic foundation for superior egg visibility. Deeply coated in beeswax for rapid draw-out. Skip the assembly and get straight to beekeeping. Laurieville Farms Bulk Savings: Don't get caught without enough room for the honey flow!",
       "images": [
         {
           "url": "/src/assets/deep-wood-frame.jpg",
@@ -145,7 +145,7 @@
         {
           "id": "assembled",
           "label": "Assembled",
-          "price": 5.50,
+          "price": 5.5,
           "status": "ready_now"
         }
       ]
@@ -154,7 +154,7 @@
       "id": "insulated-telescoping-outer-cover",
       "name": "Insulated Telescoping Outer Cover",
       "category": "woodenware",
-      "description": "Winter-Ready Protection for Your Colony Our premium outer covers are built to handle the extreme temperature swings of a Michigan winter. We’ve integrated R-6 insulation directly into the lid to prevent heat loss and minimize the condensation that can be fatal to a wintering cluster. Enhanced Design: Features extended side-walls to provide full coverage and wind protection, even when using an upper entrance or shim. Finish: Natural/Unfinished—ready for your choice of paint or sealant. Volume Savings for Your Apiary: Upgrade your entire apiary and save on your total order. Discounts are applied automatically at checkout: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Engineered for better overwintering success.",
+      "description": "Winter-Ready Protection for Your Colony Our premium outer covers are built to handle the extreme temperature swings of a Michigan winter. We’ve integrated R-6 insulation directly into the lid to prevent heat loss and minimize the condensation that can be fatal to a wintering cluster.<br/><br/><strong>Enhanced Design:</strong> Features extended side-walls to provide full coverage and wind protection, even when using an upper entrance or shim.<br/><br/><strong>Finish:</strong> Natural/Unfinished—ready for your choice of paint or sealant.<br/><br/>",
       "images": [
         {
           "url": "/src/assets/outer-cover.jpg",
@@ -169,22 +169,22 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 40.00,
+          "price": 40,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 40.00,
+          "price": 40,
           "status": "ready_now"
         }
       ]
     },
     {
       "id": "standard-medium-hive-body",
-      "name": "Standard Medium 6 ⅝\" Hive Body (Apiary Overstock)",
+      "name": "Medium Hive Body (Apiary Overstock)",
       "category": "woodenware",
-      "description": "We are clearing out a small surplus of our utility-grade medium supers to make room for new inventory. These are standard 10-frame medium hive bodies, perfect for adding honey storage as the spring flow approaches. Construction: Solid wood, pre-assembled and painted/sealed for immediate use. Compatibility: Fits any standard 10-frame Langstroth setup. Note: This listing is for the wooden hive body only. Internal frames and foundation are not included. Laurieville Farms Bulk Savings: Don't get caught without enough room for the honey flow! We offer automatic discounts based on your total order: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Discounts are applied automatically at checkout.",
+      "description": "We are clearing out a small surplus of our utility-grade medium supers to make room for new inventory. These are standard 10-frame medium hive bodies, perfect for adding honey storage as the spring flow approaches.<br/><br/><strong>Construction:</strong> Solid wood, pre-assembled and painted/sealed for immediate use. Compatibility: Fits any standard 10-frame Langstroth setup. Note: This listing is for the wooden hive body only. Internal frames and foundation are not included.",
       "images": [
         {
           "url": "/src/assets/medium-hive-body.jpg",
@@ -195,13 +195,13 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 30.00,
+          "price": 30,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 30.00,
+          "price": 30,
           "status": "ready_now"
         }
       ]
@@ -210,7 +210,7 @@
       "id": "screened-bottom-board",
       "name": "Screened Bottom Board",
       "category": "woodenware",
-      "description": "Superior Ventilation and Mite Management Designed for maximum airflow and integrated pest management, our screened bottom boards are a must-have for the modern apiary. We use heavy-duty #8 hardware cloth (1/8\" mesh) to provide a durable barrier that allows debris and mites to fall through while keeping your colony secure. Construction: Built with waterproof glue and stainless steel screws to resist the moisture and debris naturally found at the base of the hive. Precision Joinery: Features deep rabbeted joints for a rock-solid foundation that won't rack or warp under the weight of full honey supers. Finish: Natural/Unfinished—ready for your choice of paint or sealant. Volume Savings for Your Apiary: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Professional-grade equipment for healthier hives.",
+      "description": "Superior Ventilation and Mite Management Designed for maximum airflow and integrated pest management, our screened bottom boards are a must-have for the modern apiary. We use heavy-duty #8 hardware cloth (1/8\" mesh) to provide a durable barrier that allows debris and mites to fall through while keeping your colony secure.<br/><br/><strong>Construction:</strong> Built with waterproof glue and stainless steel screws to resist the moisture and debris naturally found at the base of the hive.<br/><br/><strong>Precision Joinery:</strong> Features deep rabbeted joints for a rock-solid foundation that won't rack or warp under the weight of full honey supers.<br/><br/><strong>Finish:</strong> Natural/Unfinished—ready for your choice of paint or sealant.",
       "images": [
         {
           "url": "/src/assets/screened-bottom-board.jpg",
@@ -229,13 +229,13 @@
         {
           "id": "8-frame",
           "label": "8-Frame",
-          "price": 40.00,
+          "price": 40,
           "status": "ready_now"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
-          "price": 40.00,
+          "price": 40,
           "status": "ready_now"
         }
       ]
@@ -244,7 +244,7 @@
       "id": "medium-frames-white",
       "name": "Medium Frames - White Foundation",
       "category": "woodenware",
-      "description": "Fully assembled wooden frames featuring a white plastic foundation. The clean, white surface allows you to easily assess the color and clarity of your honey before harvest. Pre-waxed and ready for your honey supers—built to withstand the extractor season after season. Laurieville Farms Bulk Savings: Don't get caught without enough room for the honey flow! We offer automatic discounts based on your total order: 5% Off orders over $100 10% Off orders over $200 15% Off orders over $300 Discounts are applied automatically at checkout.",
+      "description": "Fully assembled wooden frames featuring a white plastic foundation. The clean, white surface allows you to easily assess the color and clarity of your honey before harvest. Pre-waxed and ready for your honey supers—built to withstand the extractor season after season.",
       "images": [
         {
           "url": "/src/assets/medium-wood-frame.jpg",
@@ -255,7 +255,7 @@
         {
           "id": "assembled",
           "label": "Assembled",
-          "price": 5.50,
+          "price": 5.5,
           "status": "ready_now"
         }
       ]
@@ -275,13 +275,13 @@
         {
           "id": "1lb-jar",
           "label": "1 lb Glass Jar",
-          "price": 13.00,
+          "price": 13,
           "status": "ready_now"
         },
         {
           "id": "2lb-jar",
           "label": "2 lb Glass Jar",
-          "price": 20.00,
+          "price": 20,
           "status": "ready_now"
         }
       ]
@@ -301,7 +301,7 @@
         {
           "id": "10-inch-pair",
           "label": "10-inch (Pair)",
-          "price": 15.00,
+          "price": 15,
           "status": "custom_build"
         }
       ]
