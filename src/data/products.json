@@ -196,7 +196,7 @@
           "id": "8-frame",
           "label": "8-Frame",
           "price": 30,
-          "status": "ready_now"
+          "status": "low_stock"
         },
         {
           "id": "10-frame",
