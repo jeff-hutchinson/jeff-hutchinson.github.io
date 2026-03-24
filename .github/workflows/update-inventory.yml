@@ -61,11 +61,25 @@ jobs:
         run: |
           git config --global user.name "Lauriville Inventory Bot"
           git config --global user.email "bot@laurievillefarms.com"
+          
+          # Create a unique temporary branch for this specific update
+          BRANCH_NAME="bot/inventory-update-${PAYLOAD_PRODUCT_ID}-${PAYLOAD_VARIANT_ID}-${GITHUB_RUN_ID}"
+          git checkout -b $BRANCH_NAME
+          
           git add src/data/products.json
           git commit -m "chore(inventory): updated ${PAYLOAD_PRODUCT_ID} ${PAYLOAD_VARIANT_ID} to ${PAYLOAD_NEW_STATUS}" || exit 0
-          # Push specifically to the target branch that was checked out
-          git push origin HEAD:${PAYLOAD_TARGET_BRANCH}
+          
+          # Push the new branch to the remote
+          git push -u origin $BRANCH_NAME
+          
+          # Auth the GitHub CLI and create the Pull Request automatically
+          gh pr create \
+            --title "Inventory Update: ${PAYLOAD_PRODUCT_ID} ${PAYLOAD_VARIANT_ID}" \
+            --body "Automated inventory change requested by the Admin Portal. Updating ${PAYLOAD_VARIANT_ID} status to ${PAYLOAD_NEW_STATUS}." \
+            --base ${PAYLOAD_TARGET_BRANCH} \
+            --head $BRANCH_NAME
         env:
+          GH_TOKEN: ${{ secrets.INVENTORY_BOT_TOKEN || github.token }}
           PAYLOAD_PRODUCT_ID: ${{ github.event.client_payload.product_id }}
           PAYLOAD_VARIANT_ID: ${{ github.event.client_payload.variant_id }}
           PAYLOAD_NEW_STATUS: ${{ github.event.client_payload.new_status }}
