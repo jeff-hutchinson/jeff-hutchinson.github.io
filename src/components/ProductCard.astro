@@ -1,0 +1,153 @@
+---
+// src/components/ProductCard.astro
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+const { product } = Astro.props;
+
+// Dynamically map image strings to Astro's internal Webpack/Vite asset bundler
+const localImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif}');
+const heroImageUrl = product.images[0].url;
+const heroImagePromise = localImages[heroImageUrl];
+
+if (!heroImagePromise) {
+  console.warn(`[WARNING] ProductCard: Image ${heroImageUrl} not found in src/assets/`);
+}
+
+// Smart Pricing Logic: determining if variations share a price or if it's a range.
+const prices = product.variants.map((v: any) => v.price);
+const minPrice = Math.min(...prices);
+const maxPrice = Math.max(...prices);
+const isUniformPrice = minPrice === maxPrice;
+
+// Compute the clean SEO URL slug purely from the JSON identifiers
+const productUrl = `/products/${product.category}/${product.id}`;
+---
+<a href={productUrl} class="product-card">
+  <div class="card-image-wrapper">
+    <!-- Native Astro Image optimization resolving dynamically from JSON string -->
+    {heroImagePromise ? (
+       <Image src={heroImagePromise()} alt={product.images[0].alt} loading="lazy" />
+    ) : (
+       <div class="missing-image-fallback">Image Not Found</div>
+    )}
+  </div>
+  
+  <div class="card-content">
+    <h3>{product.name}</h3>
+    
+    <p class="price-display">
+      {isUniformPrice ? `$${minPrice.toFixed(2)}` : `Starting at $${minPrice.toFixed(2)}`}
+    </p>
+    
+    <span class="view-btn">View Details</span>
+  </div>
+</a>
+
+<style>
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    /* Adhering to the "High-Contrast Hybrid" UI rule: Charcoal background for Impact Zones */
+    background-color: var(--color-charcoal, #212121);
+    color: var(--color-cream, #fffdf7);
+    text-decoration: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background-color: #333; /* Dark skeleton color before image loads */
+  }
+
+  .card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .product-card:hover .card-image-wrapper img {
+    transform: scale(1.05); /* Architectural micro-animation for engagement */
+  }
+
+  .missing-image-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    color: #888;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+  }
+
+  .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .ready-badge {
+    /* Using a distinct, accessible green for 'in stock' notifications */
+    background-color: #2e7d32; 
+    color: #ffffff;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .card-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem; 
+  }
+
+  .price-display {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.25rem;
+    /* UI RULE: Gold text strictly sits on Charcoal backgrounds to pass WCAG 4.5:1 */
+    color: var(--color-gold, #E8A50E);
+    font-weight: bold;
+  }
+
+  .view-btn {
+    margin-top: auto;
+    display: inline-block;
+    border: 2px solid var(--color-gold, #E8A50E);
+    color: var(--color-gold, #E8A50E);
+    padding: 0.6rem 1rem;
+    text-align: center;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .product-card:hover .view-btn {
+    background-color: var(--color-gold, #E8A50E);
+    /* Inverting colors on hover for a premium dynamic aesthetic */
+    color: var(--color-charcoal, #212121);
+  }
+</style>

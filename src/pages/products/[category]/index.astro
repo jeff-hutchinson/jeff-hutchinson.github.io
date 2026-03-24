@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import catalogData from '../../../data/products.json';
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+// Astro's SSG function to generate the raw URLs mathematically
+export function getStaticPaths() {
+  // Extract all unique categories directly from the products array natively
+  const uniqueCategories = [...new Set(catalogData.products.map((p: any) => p.category))];
+  
+  return uniqueCategories.map((cat) => ({
+    params: { category: cat },
+    props: { 
+      categoryData: { header: `Explore our premium collection of handcrafted ${cat}.` },
+      products: catalogData.products.filter((p: any) => p.category === cat)
+    }
+  }));
+}
+
+const { category } = Astro.params;
+const { categoryData, products } = Astro.props;
+
+// Formatting the title cleanly (e.g., 'woodenware' -> 'Woodenware')
+const title = category.charAt(0).toUpperCase() + category.slice(1);
+
+// Map specific hero images to generic category names dynamically
+const localImages = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif}');
+const categoryHeroMap: Record<string, string> = {
+  'woodenware': '/src/assets/covers.jpg',
+  'honey': '/src/assets/honey-jar.jpg',
+  'candles': '/src/assets/candle.jpg'
+};
+const heroImageUrl = categoryHeroMap[category.toLowerCase()] || '/src/assets/hero.jpg';
+const heroImagePromise = localImages[heroImageUrl];
+---
+
+<BaseLayout pageTitle={`${title} | Laurieville Farms`}>
+  {/* Utilizing the established 'Split-Block' High Contrast Hero rule */}
+  <section class="page-hero">
+    <div class="hero-bg-wrapper">
+      {heroImagePromise && (
+        <Image src={heroImagePromise()} alt={`${title} cover image`} width={1920} format="webp" loading="eager" decoding="async" class="hero-img" />
+      )}
+    </div>
+    <div class="hero-content">
+      <h1>{title}</h1>
+      <p>{categoryData.header}</p>
+    </div>
+  </section>
+
+  <section class="products-grid wrapper">
+    {products.length > 0 ? (
+      <div class="grid-container">
+        {products.map(product => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <p>New {title.toLowerCase()} arriving soon! Please check back later or contact us directly.</p>
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4rem;
+  }
+
+  .hero-bg-wrapper {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-content {
+    background-color: var(--color-charcoal, #212121);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    color: var(--color-cream, #fffdf7);
+  }
+
+  .hero-content h1 {
+    font-family: var(--font-serif, "Georgia", serif);
+    font-size: 3rem;
+    color: var(--color-gold, #E8A50E);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1.25rem;
+    color: var(--color-cream, #fffdf7);
+    margin: 0;
+  }
+  
+  .wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+  }
+
+  /* Structural UI Rule: Mobile-first 1-column stacking */
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Tablet view: 2 columns */
+  @media (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Desktop view: 3 columns */
+  @media (min-width: 1024px) {
+    .grid-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #f7f3ec; /* Cream derivative */
+    border: 1px dashed var(--color-charcoal, #212121);
+    border-radius: 8px;
+    color: var(--color-charcoal, #212121);
+    font-style: italic;
+  }
+</style>
