@@ -8,7 +8,9 @@ import { Image } from 'astro:assets';
 // Astro's SSG function to generate the raw URLs mathematically
 export function getStaticPaths() {
   // Extract all unique categories directly from the products array natively
-  const uniqueCategories = [...new Set(catalogData.products.map((p: any) => p.category))];
+  // We exclude 'honey' and 'candles' here because they have their own static pages (honey.astro and candles.astro)
+  const uniqueCategories = [...new Set(catalogData.products.map((p: any) => p.category))]
+    .filter(cat => cat !== 'honey' && cat !== 'candles');
   
   return uniqueCategories.map((cat) => ({
     params: { category: cat },
