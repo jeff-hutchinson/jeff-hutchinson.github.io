@@ -287,10 +287,10 @@
       ]
     },
     {
-      "id": "beeswax-taper-candles",
-      "name": "Hand-Dipped Taper Candles",
+      "id": "beeswax-pillar-candles",
+      "name": "Beeswax Pillar Candles",
       "category": "candles",
-      "description": "Solid natural beeswax taper candles. Naturally completely dripless and smoke-free with a mild honey scent.",
+      "description": "Solid natural beeswax candles. Naturally completely dripless and smoke-free with a mild honey scent.",
       "images": [
         {
           "url": "/src/assets/candle.jpg",
@@ -299,8 +299,8 @@
       ],
       "variants": [
         {
-          "id": "10-inch-pair",
-          "label": "10-inch (Pair)",
+          "id": "3-inch-pillar",
+          "label": "3-inch Pillar",
           "price": 15,
           "status": "custom_build"
         }
