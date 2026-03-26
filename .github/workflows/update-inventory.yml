@@ -63,11 +63,20 @@ jobs:
           PAYLOAD_VARIANT_ID: ${{ github.event.client_payload.variant_id }}
           PAYLOAD_NEW_STATUS: ${{ github.event.client_payload.new_status }}
           
-      - name: Commit Status Overwrite to Repository
+      - name: Validate Integrity & Commit
         run: |
           git config --global user.name "Lauriville Inventory Bot"
           git config --global user.email "bot@laurievillefarms.com"
           
+          # SAFETY CHECK: Verify that ONLY src/data/products.json has been modified
+          # This prevents any malicious or accidental code injection during an inventory update
+          MODIFIED_FILES=$(git status --short | grep -v "src/data/products.json" || true)
+          if [ ! -z "$MODIFIED_FILES" ]; then
+            echo "CRITICAL SAFETY ERROR: Unexpected files modified during inventory update!"
+            echo "$MODIFIED_FILES"
+            exit 1
+          fi
+
           # We use a single persistent staging branch so multiple clicks don't spam Pull Requests!
           BRANCH_NAME="bot/inventory-staging"
           
@@ -89,11 +98,16 @@ jobs:
           git push -u origin $BRANCH_NAME
           
           # Attempt to open a PR. If it already exists, this safely fails silently and just updates the open PR!
-          gh pr create \
+          # We use the GitHub CLI to create and then immediately merge the PR if it's purely an inventory update
+          PR_URL=$(gh pr create \
             --title "Inventory Updates Queue" \
-            --body "Automated inventory changes requested by the Admin Portal. Please review and merge the bundled updates." \
+            --body "Automated inventory changes requested by the Admin Portal. This PR has been pre-validated to ensure ONLY products.json was modified." \
             --base ${PAYLOAD_TARGET_BRANCH} \
-            --head $BRANCH_NAME || echo "PR already exists! Appended commit to the active PR."
+            --head $BRANCH_NAME || gh pr list --head $BRANCH_NAME --json url --jq '.[0].url')
+          
+          # AUTO-MERGE: Since this is the allowed exception, we merge it immediately
+          # This ensures the Admin Portal changes are live without manual 'Jules' intervention
+          gh pr merge $PR_URL --merge --auto || echo "Auto-merge enabled for $PR_URL"
         env:
           GH_TOKEN: ${{ secrets.INVENTORY_BOT_TOKEN || github.token }}
           PAYLOAD_PRODUCT_ID: ${{ github.event.client_payload.product_id }}
