@@ -261,13 +261,13 @@
       ]
     },
     {
-      "id": "wildflower-honey",
-      "name": "Raw Wildflower Honey",
+      "id": "1lb-honey",
+      "name": "1 Pound Wildflower Honey",
       "category": "honey",
       "description": "Pure, unprocessed wildflower honey. Harvested late summer for a robust, complex flavor profile.",
       "images": [
         {
-          "url": "/src/assets/honey-jar.jpg",
+          "url": "/src/assets/1lb-honey.jpg",
           "alt": "Classic glass jar of golden honey"
         }
       ],
@@ -277,11 +277,45 @@
           "label": "1 lb Glass Jar",
           "price": 13,
           "status": "ready_now"
-        },
+        }
+      ]
+    },
+    {
+      "id": "2lb-honey",
+      "name": "2 Pound Wildflower Honey",
+      "category": "honey",
+      "description": "Pure, unprocessed wildflower honey. Harvested late summer for a robust, complex flavor profile.",
+      "images": [
+        {
+          "url": "/src/assets/2lb-honey.jpg",
+          "alt": "Classic glass jar of golden honey"
+        }
+      ],
+      "variants": [
         {
           "id": "2lb-jar",
           "label": "2 lb Glass Jar",
           "price": 20,
+          "status": "ready_now"
+        }
+      ]
+    },
+    {
+      "id": "creamed-honey",
+      "name": "Creamed Honey",
+      "category": "honey",
+      "description": "Our creamed honey is a smooth, spreadable delicacy crafted from 100% pure Michigan honey. Through a careful process of controlled crystallization, we transform liquid honey into a velvety, butter-like consistency that melts on the tongue.<br/><br/>It offers the same rich, floral sweetness of our traditional harvest but with a refined texture that won't drip or run. It is perfect for spreading on warm toast, pairing with crisp apples, or stirring into your morning tea.",
+      "images": [
+        {
+          "url": "/src/assets/creamed-honey.jpg",
+          "alt": "Creamed honey in a tub"
+        }
+      ],
+      "variants": [
+        {
+          "id": "12oz-tub",
+          "label": "12 oz tub",
+          "price": 13,
           "status": "ready_now"
         }
       ]

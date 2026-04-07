@@ -2,6 +2,10 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import honeyHero from '../../assets/honey-jar.jpg';
+import ProductCard from '../../components/ProductCard.astro';
+import catalogData from '../../data/products.json';
+
+const honeyProducts = catalogData.products.filter((p: any) => p.category === 'honey');
 ---
 
 <BaseLayout title="Pure Michigan Honey - Laurieville Farms">
@@ -55,13 +59,14 @@ import honeyHero from '../../assets/honey-jar.jpg';
 
   </section>
 
-  <!-- Placeholder for future shop section -->
-  <div class="shop-placeholder container">
-    <div class="coming-soon-banner">
-      <h3>Shop Our Collection</h3>
-      <p>Product listings are <strong>Coming Soon!</strong></p>
+  <!-- Honey Products Section -->
+  <section class="products-grid wrapper">
+    <div class="grid-container">
+      {honeyProducts.map((product: any) => (
+        <ProductCard product={product} />
+      ))}
     </div>
-  </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -142,28 +147,28 @@ import honeyHero from '../../assets/honey-jar.jpg';
     margin-bottom: 0.5rem;
   }
 
-  .shop-placeholder {
-    margin-bottom: 4rem;
+  .wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
   }
 
-  .coming-soon-banner {
-    background-color: var(--color-gold);
-    color: var(--color-charcoal);
-    padding: 3rem;
-    text-align: center;
-    border-radius: 8px;
-    margin-top: 4rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .coming-soon-banner h3 {
-    color: var(--color-charcoal);
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
+  @media (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
-  
-  .coming-soon-banner p {
-    font-size: 1.25rem;
-    margin: 0;
+
+  @media (min-width: 1024px) {
+    .grid-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
   }
 </style>
