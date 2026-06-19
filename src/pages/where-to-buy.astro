@@ -1,0 +1,464 @@
+---
+// src/pages/where-to-buy.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import retailers from '../data/retailers.json';
+import honeyJarHero from '../assets/honey-jar.jpg';
+
+// Grouping by city dynamically
+const retailersByCity = retailers.reduce((acc, retailer) => {
+  const city = retailer.city;
+  if (!acc[city]) {
+    acc[city] = [];
+  }
+  acc[city].push(retailer);
+  return acc;
+}, {} as Record<string, typeof retailers>);
+
+const mapUrls: Record<string, string> = {
+  "The Weathered Windmill": "https://maps.google.com/maps?q=10435%20State%20Rd,%20Millington,%20MI%2048746&t=&z=15&ie=UTF8&iwloc=&output=embed",
+  "Dano's on 24 Veggies and more": "https://maps.google.com/maps?q=2738%20N%20Lapeer%20Rd,%20Lapeer,%20MI%2048446&t=&z=15&ie=UTF8&iwloc=&output=embed"
+};
+
+const title = "Where to Buy - Laurieville Farms";
+const description = "Find where to buy fresh Laurieville Farms honey, handcrafted supplies, and candles near you in Michigan.";
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="hero-bg-wrapper">
+      <Image src={honeyJarHero} alt="Laurieville Farms Raw Honey" class="hero-img" width={1920} />
+    </div>
+    <div class="hero-content">
+      <h1>Where to Buy</h1>
+      <p>Find fresh Laurieville Farms products at a retailer near you.</p>
+    </div>
+  </section>
+
+  <!-- Directory and Map Section -->
+  <section class="retailers-section container">
+    <div class="page-layout">
+      <!-- Map Column -->
+      <div class="map-column">
+        <div class="map-container-wrapper">
+          <iframe 
+            id="retailer-map"
+            src="https://maps.google.com/maps?q=Millington%20and%20Lapeer,%20MI&t=&z=10&ie=UTF8&iwloc=&output=embed"
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Laurieville Farms Retailer Locations Map">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Directory Column -->
+      <div class="directory-column">
+        <h2>Our Retail Partners</h2>
+        <p class="directory-intro">Visit our retail partners to purchase our raw honey, beeswax candles, and beekeeping woodenware in person.</p>
+        
+        {Object.keys(retailersByCity).map(city => (
+          <div class="city-group">
+            <h3 class="city-title">{city}</h3>
+            <div class="stores-grid">
+              {retailersByCity[city].map(retailer => (
+                <div class="store-card">
+                  <h4 class="store-name">
+                    <button 
+                      class="map-trigger-btn" 
+                      data-store-name={retailer.name} 
+                      data-map-url={mapUrls[retailer.name]} 
+                      title={`View ${retailer.name} on map`}
+                    >
+                      {retailer.name}
+                    </button>
+                  </h4>
+                  <p class="store-address">
+                    {retailer.street}<br />
+                    {retailer.city}, {retailer.state} {retailer.zip}
+                  </p>
+                  {retailer.phone && (
+                    <p class="store-phone">
+                      <strong>Phone:</strong> <a href={`tel:${retailer.phone.replace(/[^\d+]/g, '')}`}>{retailer.phone}</a>
+                    </p>
+                  )}
+                  <p class="call-ahead-notice">
+                    We recommend calling ahead to ensure they have our specific honey varietals in stock!
+                  </p>
+                  {retailer.url && (
+                    <a href={retailer.url} target="_blank" rel="noopener noreferrer" class="btn-store-link">
+                      Visit Retailer
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Wholesale Lead Form Section -->
+  <section class="wholesale-section">
+    <div class="container">
+      <div class="wholesale-container">
+        <h2>Become a Laurieville Farms Stockist</h2>
+        <p class="wholesale-subtitle">Interested in carrying our raw honey, handcrafted hive bodies, or hand-poured beeswax candles in your shop? Partner with us!</p>
+        
+        <div class="wholesale-cta">
+          <p class="wholesale-text">
+            Are you a local specialty shop, boutique, or market interested in carrying our raw Michigan honey, hand-poured beeswax candles, or custom beekeeping woodenware? We'd love to partner with you!
+          </p>
+          <p class="wholesale-instructions">
+            Click the button below to send us an email with your business details, location, and the products you're interested in, and we will get back to you with wholesale pricing details.
+          </p>
+          <div class="wholesale-actions">
+            <a href="mailto:info@laurievillefarms.com?subject=Wholesale%20Inquiry%20-%20Laurieville%20Farms" class="btn-submit">
+              Email Wholesale Inquiry
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline>
+    const initMapTriggers = () => {
+      const retailersSection = document.querySelector('.retailers-section');
+      if (retailersSection) {
+        retailersSection.addEventListener('click', (e) => {
+          const btn = e.target.closest('.map-trigger-btn');
+          if (!btn) return;
+          
+          e.preventDefault();
+          const mapUrl = btn.getAttribute('data-map-url');
+          const iframe = document.getElementById('retailer-map');
+          if (iframe && mapUrl) {
+            iframe.src = mapUrl;
+            
+            // Smooth scroll to map on mobile viewports
+            if (window.innerWidth < 992) {
+              const mapWrapper = document.querySelector('.map-container-wrapper');
+              if (mapWrapper) {
+                mapWrapper.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+          }
+        });
+      }
+    };
+
+    // Initialize immediately if DOM is ready, otherwise wait
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initMapTriggers);
+    } else {
+      initMapTriggers();
+    }
+
+    // Support Astro View Transitions page load events
+    document.addEventListener('astro:page-load', initMapTriggers);
+  </script>
+</BaseLayout>
+
+<style>
+  /* Hero Section styling */
+  .page-hero {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+  }
+
+  .hero-bg-wrapper {
+    position: relative;
+    width: 100%;
+    height: 35vh;
+    min-height: 250px;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-content {
+    background-color: var(--color-charcoal);
+    padding: 2rem 1rem;
+    text-align: center;
+    color: var(--color-cream);
+  }
+
+  .hero-content h1 {
+    font-size: 2.75rem;
+    color: var(--color-gold);
+    margin: 0;
+  }
+
+  .hero-content p {
+    font-size: 1.15rem;
+    color: var(--color-cream);
+    margin: 0.5rem 0 0 0;
+  }
+
+  /* Layout and Columns */
+  .retailers-section {
+    padding: 2rem 0;
+  }
+
+  .page-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  @media (min-width: 992px) {
+    .page-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .map-column {
+      position: sticky;
+      top: 120px;
+    }
+  }
+
+  /* Map Column Styling */
+  .map-container-wrapper {
+    width: 100%;
+    height: 450px;
+    border: 2px solid var(--color-charcoal);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 1; /* Establishes a new stacking context for children, keeping map below sticky nav */
+  }
+
+  #retailer-map {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Directory Column Styling */
+  .directory-column h2 {
+    font-size: 2.25rem;
+    color: var(--color-charcoal);
+    margin-bottom: 0.5rem;
+  }
+
+  .directory-intro {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .city-group {
+    margin-bottom: 2.5rem;
+  }
+
+  .city-title {
+    font-size: 1.5rem;
+    border-bottom: 3px solid var(--color-gold);
+    padding-bottom: 0.25rem;
+    margin-bottom: 1.25rem;
+    color: var(--color-charcoal);
+    display: inline-block;
+  }
+
+  .stores-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  /* Store Cards */
+  .store-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.75rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border-top: 4px solid var(--color-gold);
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .store-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  }
+
+  .store-name {
+    font-size: 1.35rem;
+    color: var(--color-charcoal);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .map-trigger-btn {
+    background: none;
+    border: none;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--color-charcoal);
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-align: left;
+    font-weight: bold;
+    display: inline;
+    transition: opacity 0.2s;
+  }
+
+  .map-trigger-btn:hover {
+    text-decoration: none;
+    opacity: 0.75;
+  }
+
+  .store-address {
+    font-size: 1rem;
+    color: var(--color-charcoal);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.5;
+  }
+
+  .store-phone {
+    font-size: 1rem;
+    color: var(--color-charcoal);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .store-phone a {
+    color: var(--color-charcoal);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .store-phone a:hover {
+    text-decoration: none;
+  }
+
+  .call-ahead-notice {
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #444;
+    margin: 0 0 1.25rem 0;
+    line-height: 1.4;
+  }
+
+  .btn-store-link {
+    display: inline-block;
+    background-color: var(--color-charcoal);
+    color: var(--color-gold);
+    padding: 0.65rem 1.25rem;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    text-align: center;
+    border: 2px solid var(--color-charcoal);
+  }
+
+  .btn-store-link:hover {
+    background-color: var(--color-gold);
+    color: var(--color-charcoal);
+    text-decoration: none;
+    transform: translateY(-2px);
+  }
+
+  /* Wholesale Lead Form Section Styling */
+  .wholesale-section {
+    background-color: var(--color-charcoal);
+    color: var(--color-cream);
+    padding: 4.5rem 0;
+    margin-top: 4rem;
+  }
+
+  .wholesale-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .wholesale-container h2 {
+    font-size: 2.5rem;
+    color: var(--color-gold);
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .wholesale-subtitle {
+    text-align: center;
+    font-size: 1.15rem;
+    color: var(--color-cream);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .wholesale-cta {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .wholesale-text {
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--color-cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .wholesale-instructions {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    margin-bottom: 2.5rem;
+  }
+
+  .wholesale-actions {
+    text-align: center;
+  }
+
+  .btn-submit {
+    display: inline-block;
+    background-color: var(--color-gold);
+    color: var(--color-charcoal);
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.05rem;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    width: 100%;
+    text-decoration: none;
+  }
+
+  @media (min-width: 768px) {
+    .btn-submit {
+      width: auto;
+    }
+  }
+
+  .btn-submit:hover {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  }
+</style>
