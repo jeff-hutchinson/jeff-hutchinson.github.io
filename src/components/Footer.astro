@@ -31,7 +31,7 @@ const categoryLabels: Record<string, string> = {
         {uniqueCategories.map(cat => (
           <li><a href={`/products/${cat}`}>{categoryLabels[cat] || cat.charAt(0).toUpperCase() + cat.slice(1)}</a></li>
         ))}
-        <li><a href="/coming-soon">Find Us</a></li>
+        <li><a href="/where-to-buy">Where to Buy</a></li>
         <li><a href="/info">About</a></li>
       </ul>
     </div>
@@ -151,5 +151,11 @@ const categoryLabels: Record<string, string> = {
   .social-icons a:hover .icon {
     stroke: var(--color-gold);
     transform: translateY(-2px);
+  }
+
+  @media (min-width: 1024px) {
+    .footer-container {
+      max-width: 1440px;
+    }
   }
 </style>
