@@ -21,3 +21,6 @@ node_modules/
 
 # Astro
 .astro/
+
+# Environment Variables / Secrets
+.env
