@@ -39,7 +39,7 @@ jobs:
         run: |
           npx -y serve dist -p 4321 &
           sleep 4
-          npx -y pa11y-ci http://localhost:4321/ http://localhost:4321/info http://localhost:4321/products/candles http://localhost:4321/products/honey http://localhost:4321/coming-soon http://localhost:4321/where-to-buy || true
+          npx -y pa11y-ci http://localhost:4321/ http://localhost:4321/info http://localhost:4321/products/candles http://localhost:4321/products/honey http://localhost:4321/coming-soon http://localhost:4321/where-to-buy
   deploy:
     needs: [build, a11y-test]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
