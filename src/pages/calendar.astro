@@ -2,7 +2,7 @@
 // src/pages/calendar.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-import coversHero from '../assets/covers.jpg';
+import eventsHero from '../assets/events.png';
 
 const calendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
 const apiKey = import.meta.env.PUBLIC_GOOGLE_API_KEY;
@@ -78,7 +78,7 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
   <!-- Hero Section -->
   <section class="page-hero">
     <div class="hero-bg-wrapper">
-      <Image src={coversHero} alt="Laurieville Farms Beekeeping Woodenware" class="hero-img" width={1920} />
+      <Image src={eventsHero} alt="Laurieville Farms Events" class="hero-img" width={1920} />
     </div>
     <div class="hero-content">
       <h1>Upcoming Events</h1>
@@ -149,7 +149,7 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
                     </div>
 
                     {event.description && (
-                      <p class="event-description">{event.description.replace(/\\n/g, '\n')}</p>
+                      <div class="event-description" set:html={event.description.replace(/\\n/g, '\n')} />
                     )}
                   </div>
                 </article>
