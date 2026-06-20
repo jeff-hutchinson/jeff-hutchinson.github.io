@@ -34,6 +34,8 @@ jobs:
       - name: Build site
         run: npm run build
       - name: Run Pa11y Accessibility checks
+        env:
+          PUPPETEER_EXECUTABLE_PATH: /usr/bin/google-chrome
         run: |
           npx -y serve dist -p 4321 &
           sleep 4
