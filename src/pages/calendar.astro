@@ -4,72 +4,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import eventsHero from '../assets/events.png';
 
-const calendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
-const apiKey = import.meta.env.PUBLIC_GOOGLE_API_KEY;
-const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}&singleEvents=true&orderBy=startTime`;
-
-let events = [];
-try {
-  const res = await fetch(url, {
-    headers: {
-      'Referer': 'https://www.laurievillefarms.com/'
-    }
-  });
-  if (!res.ok) {
-    throw new Error(`Google Calendar API responded with status ${res.status}`);
-  }
-  const data = await res.json();
-  events = data.items || [];
-} catch (err) {
-  console.error("Error fetching Google Calendar events:", err);
-}
-
-// Strictly keep public events to protect private data
-const publicEvents = events.filter((event: any) => event.visibility === 'public');
-
-// Date formatting helper
-const getEventDates = (start: any, end: any) => {
-  const startVal = start.dateTime || start.date;
-  const endVal = end.dateTime || end.date;
-  
-  if (!startVal) return null;
-  
-  const startDate = new Date(startVal);
-  const endDate = endVal ? new Date(endVal) : null;
-  
-  // Format details relative to Michigan/Eastern timezone where the farm operates
-  const options: Intl.DateTimeFormatOptions = { timeZone: 'America/New_York' };
-  
-  const month = startDate.toLocaleDateString('en-US', { ...options, month: 'short' });
-  const day = startDate.toLocaleDateString('en-US', { ...options, day: 'numeric' });
-  const weekday = startDate.toLocaleDateString('en-US', { ...options, weekday: 'short' });
-  
-  let timeStr = "All Day";
-  if (start.dateTime && end.dateTime && endDate) {
-    const startTimeStr = startDate.toLocaleTimeString('en-US', { 
-      ...options, 
-      hour: 'numeric', 
-      minute: '2-digit' 
-    });
-    const endTimeStr = endDate.toLocaleTimeString('en-US', { 
-      ...options, 
-      hour: 'numeric', 
-      minute: '2-digit' 
-    });
-    timeStr = `${startTimeStr} - ${endTimeStr}`;
-  }
-  
-  const fullDateStr = startDate.toLocaleDateString('en-US', {
-    ...options,
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-
-  return { month, day, weekday, timeStr, fullDateStr };
-};
-
 const title = "Upcoming Events - Laurieville Farms";
 const description = "Join Laurieville Farms at our upcoming local seasonal markets, workshops, and beekeeping events in Michigan.";
 ---
@@ -109,69 +43,223 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
 
       <!-- Events List Column -->
       <main class="events-column">
-        {publicEvents.length > 0 ? (
-          <div class="events-list">
-            {publicEvents.map((event: any) => {
-              const dateInfo = getEventDates(event.start, event.end);
-              if (!dateInfo) return null;
-              
-              return (
-                <article class="event-card">
-                  <!-- Date Badge -->
-                  <div class="date-badge-wrapper">
-                    <div class="date-badge">
-                      <span class="badge-month">{dateInfo.month}</span>
-                      <span class="badge-day">{dateInfo.day}</span>
-                      <span class="badge-weekday">{dateInfo.weekday}</span>
-                    </div>
-                  </div>
+        <!-- Loading State -->
+        <div id="calendar-loading" class="calendar-status">
+          <p>Loading upcoming events...</p>
+        </div>
 
-                  <!-- Content Details -->
-                  <div class="event-details">
-                    <h2 class="event-title">{event.summary}</h2>
-                    
-                    <div class="event-meta">
-                      <div class="meta-item time">
-                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="meta-icon" aria-hidden="true">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        <span>{dateInfo.fullDateStr} ({dateInfo.timeStr})</span>
-                      </div>
-                      
-                      <div class="meta-item location">
-                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="meta-icon" aria-hidden="true">
-                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                          <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <span>{event.location || "Location to be announced"}</span>
-                      </div>
-                    </div>
+        <!-- Error State -->
+        <div id="calendar-error-state" class="empty-state" style="display: none;">
+          <svg viewBox="0 0 24 24" width="60" height="60" stroke="currentColor" stroke-width="1.5" fill="none" class="empty-icon" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <h3>Failed to Load Events</h3>
+          <p>We encountered an error retrieving our upcoming schedule. Please refresh the page or try again later.</p>
+        </div>
 
-                    {event.description && (
-                      <div class="event-description" set:html={event.description.replace(/\\n/g, '\n')} />
-                    )}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        ) : (
-          <div class="empty-state">
-            <svg viewBox="0 0 24 24" width="60" height="60" stroke="currentColor" stroke-width="1.5" fill="none" class="empty-icon" aria-hidden="true">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-              <line x1="16" y1="2" x2="16" y2="6"></line>
-              <line x1="8" y1="2" x2="8" y2="6"></line>
-              <line x1="3" y1="10" x2="21" y2="10"></line>
-            </svg>
-            <h3>No Public Events Scheduled</h3>
-            <p>We are currently finalizing our seasonal market list. Please check back soon or follow our social channels for updates!</p>
-          </div>
-        )}
+        <!-- Empty State -->
+        <div id="calendar-empty-state" class="empty-state" style="display: none;">
+          <svg viewBox="0 0 24 24" width="60" height="60" stroke="currentColor" stroke-width="1.5" fill="none" class="empty-icon" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <h3>No Upcoming Events Scheduled</h3>
+          <p>We are currently finalizing our seasonal market list. Please check back soon or follow our social channels for updates!</p>
+        </div>
+
+        <!-- Events List Container -->
+        <div id="calendar-events-list" class="events-list" style="display: none;">
+          <!-- Dynamically generated event cards will be injected here -->
+        </div>
       </main>
 
     </div>
   </section>
+
+  <!-- Client-Side Logic -->
+  <script>
+    const initCalendar = async () => {
+      // Access Google environment variables compiled by Astro/Vite
+      const calendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
+      const apiKey = import.meta.env.PUBLIC_GOOGLE_API_KEY;
+      
+      const loadingEl = document.getElementById('calendar-loading');
+      const errorEl = document.getElementById('calendar-error-state');
+      const emptyEl = document.getElementById('calendar-empty-state');
+      const listEl = document.getElementById('calendar-events-list');
+
+      // Guard check to ensure we only execute on the calendar page
+      if (!loadingEl) return;
+
+      // Reset UI elements state
+      loadingEl.style.display = 'block';
+      if (errorEl) errorEl.style.display = 'none';
+      if (emptyEl) emptyEl.style.display = 'none';
+      if (listEl) {
+        listEl.innerHTML = '';
+        listEl.style.display = 'none';
+      }
+
+      // Query only upcoming events by passing timeMin set to the current ISO date-time
+      const timeMin = new Date().toISOString();
+      const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}&singleEvents=true&orderBy=startTime&timeMin=${timeMin}`;
+
+      try {
+        const res = await fetch(url, {
+          headers: {
+            'Referer': 'https://www.laurievillefarms.com/'
+          }
+        });
+        if (!res.ok) {
+          throw new Error(`Failed to fetch: status ${res.status}`);
+        }
+        const data = await res.json();
+        const rawEvents = data.items || [];
+
+        // Strictly keep public events to protect private data
+        const publicEvents = rawEvents.filter((event: any) => event.visibility === 'public');
+
+        if (publicEvents.length === 0) {
+          loadingEl.style.display = 'none';
+          if (emptyEl) emptyEl.style.display = 'block';
+          return;
+        }
+
+        renderEvents(publicEvents, listEl);
+        loadingEl.style.display = 'none';
+      } catch (err) {
+        console.error("Error fetching Google Calendar events:", err);
+        loadingEl.style.display = 'none';
+        if (errorEl) errorEl.style.display = 'block';
+      }
+    };
+
+    // Date formatting helper for client side
+    const getEventDates = (start: any, end: any) => {
+      const startVal = start.dateTime || start.date;
+      const endVal = end.dateTime || end.date;
+      
+      if (!startVal) return null;
+      
+      const startDate = new Date(startVal);
+      const endDate = endVal ? new Date(endVal) : null;
+      
+      // Format details relative to Michigan/Eastern timezone where the farm operates
+      const options: Intl.DateTimeFormatOptions = { timeZone: 'America/New_York' };
+      
+      const month = startDate.toLocaleDateString('en-US', { ...options, month: 'short' });
+      const day = startDate.toLocaleDateString('en-US', { ...options, day: 'numeric' });
+      const weekday = startDate.toLocaleDateString('en-US', { ...options, weekday: 'short' });
+      
+      let timeStr = "All Day";
+      if (start.dateTime && end.dateTime && endDate) {
+        const startTimeStr = startDate.toLocaleTimeString('en-US', { 
+          ...options, 
+          hour: 'numeric', 
+          minute: '2-digit' 
+        });
+        const endTimeStr = endDate.toLocaleTimeString('en-US', { 
+          ...options, 
+          hour: 'numeric', 
+          minute: '2-digit' 
+        });
+        timeStr = `${startTimeStr} - ${endTimeStr}`;
+      }
+      
+      const fullDateStr = startDate.toLocaleDateString('en-US', {
+        ...options,
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      return { month, day, weekday, timeStr, fullDateStr };
+    };
+
+    // Render helper to build cards and inject them safely
+    const renderEvents = (events: any[], container: HTMLElement) => {
+      container.innerHTML = '';
+      
+      events.forEach(event => {
+        const dateInfo = getEventDates(event.start, event.end);
+        if (!dateInfo) return;
+
+        const article = document.createElement('article');
+        article.className = 'event-card';
+
+        // Check if description exists and clean up escaped backslashes/newlines
+        let descriptionHtml = '';
+        if (event.description) {
+          const cleanDesc = event.description.replace(/\\n/g, '\n');
+          descriptionHtml = `<div class="event-description">${cleanDesc}</div>`;
+        }
+
+        article.innerHTML = `
+          <!-- Date Badge -->
+          <div class="date-badge-wrapper">
+            <div class="date-badge">
+              <span class="badge-month">${dateInfo.month}</span>
+              <span class="badge-day">${dateInfo.day}</span>
+              <span class="badge-weekday">${dateInfo.weekday}</span>
+            </div>
+          </div>
+
+          <!-- Content Details -->
+          <div class="event-details">
+            <h2 class="event-title">${escapeHtml(event.summary || '')}</h2>
+            
+            <div class="event-meta">
+              <div class="meta-item time">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="meta-icon" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>${escapeHtml(dateInfo.fullDateStr)} (${escapeHtml(dateInfo.timeStr)})</span>
+              </div>
+              
+              <div class="meta-item location">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" class="meta-icon" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span>${escapeHtml(event.location || "Location to be announced")}</span>
+              </div>
+            </div>
+
+            ${descriptionHtml}
+          </div>
+        `;
+        container.appendChild(article);
+      });
+
+      container.style.display = 'flex';
+    };
+
+    // Helper to escape basic HTML strings to prevent XSS injection in summaries/locations
+    const escapeHtml = (str: string) => {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    };
+
+    // Run on initial page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCalendar);
+    } else {
+      initCalendar();
+    }
+
+    // Support Astro View Transitions loading
+    document.addEventListener('astro:page-load', initCalendar);
+  </script>
 </BaseLayout>
 
 <style>
@@ -302,6 +390,23 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
     transform: translateY(-2px);
   }
 
+  /* Status and Loading State styling */
+  .calendar-status {
+    text-align: center;
+    padding: 5rem 2rem;
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    color: var(--color-charcoal);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+
+  .calendar-status p {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 0;
+  }
+
   /* Events list */
   .events-list {
     display: flex;
@@ -423,6 +528,7 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
     border: 1px dashed #ccc;
     border-radius: 8px;
     color: var(--color-charcoal);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
   }
 
   .empty-icon {
