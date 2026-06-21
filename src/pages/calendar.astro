@@ -109,11 +109,7 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
       const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=${apiKey}&singleEvents=true&orderBy=startTime&timeMin=${timeMin}`;
 
       try {
-        const res = await fetch(url, {
-          headers: {
-            'Referer': 'https://www.laurievillefarms.com/'
-          }
-        });
+        const res = await fetch(url);
         if (!res.ok) {
           throw new Error(`Failed to fetch: status ${res.status}`);
         }
