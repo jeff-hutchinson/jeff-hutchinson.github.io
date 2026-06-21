@@ -9,6 +9,9 @@ permissions:
   contents: read
   pages: write
   id-token: write
+env:
+  PUBLIC_GOOGLE_API_KEY: ${{ secrets.CALENDAR_API_KEY }}
+  PUBLIC_GOOGLE_CALENDAR_ID: jeff.hutchinson@laurievillefarms.com
 jobs:
   build:
     runs-on: ubuntu-latest
