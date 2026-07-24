@@ -15,10 +15,8 @@ const retailersByCity = retailers.reduce((acc, retailer) => {
   return acc;
 }, {} as Record<string, typeof retailers>);
 
-const mapUrls: Record<string, string> = {
-  "The Weathered Windmill": "https://maps.google.com/maps?q=10435%20State%20Rd,%20Millington,%20MI%2048746&t=&z=15&ie=UTF8&iwloc=&output=embed",
-  "Dano's on 24 Veggies and more": "https://maps.google.com/maps?q=2738%20N%20Lapeer%20Rd,%20Lapeer,%20MI%2048446&t=&z=15&ie=UTF8&iwloc=&output=embed"
-};
+// Map URLs are now generated dynamically based on retailer addresses
+
 
 const title = "Where to Buy - Laurieville Farms";
 const description = "Find where to buy fresh Laurieville Farms honey, handcrafted supplies, and candles near you in Michigan.";
@@ -69,7 +67,7 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
                     <button 
                       class="map-trigger-btn" 
                       data-store-name={retailer.name} 
-                      data-map-url={mapUrls[retailer.name]} 
+                      data-map-url={`https://maps.google.com/maps?q=${encodeURIComponent(`${retailer.street}, ${retailer.city}, ${retailer.state} ${retailer.zip}`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
                       title={`View ${retailer.name} on map`}
                     >
                       {retailer.name}
@@ -139,11 +137,15 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
           if (iframe && mapUrl) {
             iframe.src = mapUrl;
             
-            // Smooth scroll to map on mobile viewports
+            // Smooth scroll to map on mobile viewports if not already in view
             if (window.innerWidth < 992) {
               const mapWrapper = document.querySelector('.map-container-wrapper');
               if (mapWrapper) {
-                mapWrapper.scrollIntoView({ behavior: 'smooth' });
+                const rect = mapWrapper.getBoundingClientRect();
+                const inView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+                if (!inView) {
+                  mapWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
               }
             }
           }
@@ -214,6 +216,20 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
     gap: 3rem;
   }
 
+  .map-column {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    background-color: var(--color-cream);
+    padding: 0.5rem 0; /* Creates an elegant mask as cards scroll behind map */
+  }
+
+  @media (min-width: 768px) {
+    .map-column {
+      top: 90px; /* Offset for sticky header on tablet */
+    }
+  }
+
   @media (min-width: 992px) {
     .page-layout {
       display: grid;
@@ -223,21 +239,27 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
     }
 
     .map-column {
-      position: sticky;
-      top: 120px;
+      top: 120px; /* Offset for sticky header + spacing on desktop */
+      padding: 0;
     }
   }
 
   /* Map Column Styling */
   .map-container-wrapper {
     width: 100%;
-    height: 450px;
+    height: 280px; /* Mobile first height */
     border: 2px solid var(--color-charcoal);
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     position: relative;
     z-index: 1; /* Establishes a new stacking context for children, keeping map below sticky nav */
+  }
+
+  @media (min-width: 992px) {
+    .map-container-wrapper {
+      height: 450px; /* Larger map on desktop */
+    }
   }
 
   #retailer-map {
