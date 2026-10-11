@@ -192,7 +192,14 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
         let descriptionHtml = '';
         if (event.description) {
           const cleanDesc = event.description.replace(/\\n/g, '\n');
-          descriptionHtml = `<div class="event-description">${cleanDesc}</div>`;
+          const hasHtml = /<[a-z][\s\S]*>/i.test(cleanDesc);
+          if (hasHtml) {
+            descriptionHtml = `<div class="event-description has-html">${cleanDesc}</div>`;
+          } else {
+            // Convert plain text newlines to HTML break tags
+            const formatted = cleanDesc.replace(/\n/g, '<br>');
+            descriptionHtml = `<div class="event-description">${formatted}</div>`;
+          }
         }
 
         article.innerHTML = `
@@ -510,10 +517,40 @@ const description = "Join Laurieville Farms at our upcoming local seasonal marke
     font-size: 0.95rem;
     color: #444;
     line-height: 1.6;
-    white-space: pre-line;
+    white-space: normal;
     border-top: 1px dashed #eee;
     padding-top: 1rem;
     margin: 0;
+  }
+
+  .event-description p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  .event-description p:last-child {
+    margin-bottom: 0;
+  }
+
+  .event-description a {
+    color: var(--color-charcoal);
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  .event-description a:hover {
+    text-decoration: none;
+  }
+
+  .event-description ul, 
+  .event-description ol {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .event-description li {
+    margin-bottom: 0.5rem;
   }
 
   /* Empty state */
