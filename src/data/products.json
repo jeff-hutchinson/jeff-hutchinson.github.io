@@ -16,13 +16,13 @@
           "id": "8-frame",
           "label": "8-Frame",
           "price": 30,
-          "status": "ready_now"
+          "status": "custom_build"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
           "price": 30,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -48,7 +48,7 @@
           "id": "10-frame",
           "label": "10-Frame",
           "price": 50,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -68,13 +68,13 @@
           "id": "8-frame",
           "label": "8-Frame",
           "price": 30,
-          "status": "low_stock"
+          "status": "custom_build"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
           "price": 30,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -94,13 +94,13 @@
           "id": "8-frame",
           "label": "8-Frame",
           "price": 20,
-          "status": "ready_now"
+          "status": "custom_build"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
           "price": 20,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -120,13 +120,13 @@
           "id": "8-frame",
           "label": "8-Frame",
           "price": 20,
-          "status": "ready_now"
+          "status": "custom_build"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
           "price": 20,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -146,7 +146,7 @@
           "id": "assembled",
           "label": "Assembled",
           "price": 5.5,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -170,13 +170,13 @@
           "id": "8-frame",
           "label": "8-Frame",
           "price": 40,
-          "status": "ready_now"
+          "status": "custom_build"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
           "price": 40,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -196,13 +196,13 @@
           "id": "8-frame",
           "label": "8-Frame",
           "price": 30,
-          "status": "low_stock"
+          "status": "custom_build"
         },
         {
           "id": "10-frame",
           "label": "10-Frame",
           "price": 30,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -236,7 +236,7 @@
           "id": "10-frame",
           "label": "10-Frame",
           "price": 40,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -256,7 +256,7 @@
           "id": "assembled",
           "label": "Assembled",
           "price": 5.5,
-          "status": "ready_now"
+          "status": "custom_build"
         }
       ]
     },
@@ -295,48 +295,8 @@
         {
           "id": "2lb-jar",
           "label": "2 lb Glass Jar",
-          "price": 20,
+          "price": 22,
           "status": "ready_now"
-        }
-      ]
-    },
-    {
-      "id": "creamed-honey",
-      "name": "Creamed Honey",
-      "category": "honey",
-      "description": "Our creamed honey is a smooth, spreadable delicacy crafted from 100% pure Michigan honey. Through a careful process of controlled crystallization, we transform liquid honey into a velvety, butter-like consistency that melts on the tongue.<br/><br/>It offers the same rich, floral sweetness of our traditional harvest but with a refined texture that won't drip or run. It is perfect for spreading on warm toast, pairing with crisp apples, or stirring into your morning tea.",
-      "images": [
-        {
-          "url": "/src/assets/creamed-honey.jpg",
-          "alt": "Creamed honey in a tub"
-        }
-      ],
-      "variants": [
-        {
-          "id": "12oz-tub",
-          "label": "12 oz tub",
-          "price": 13,
-          "status": "ready_now"
-        }
-      ]
-    },
-    {
-      "id": "beeswax-pillar-candles",
-      "name": "Beeswax Pillar Candles",
-      "category": "candles",
-      "description": "Solid natural beeswax candles. Naturally completely dripless and smoke-free with a mild honey scent.",
-      "images": [
-        {
-          "url": "/src/assets/candle.jpg",
-          "alt": "Pair of golden beeswax taper candles"
-        }
-      ],
-      "variants": [
-        {
-          "id": "3-inch-pillar",
-          "label": "3-inch Pillar",
-          "price": 15,
-          "status": "custom_build"
         }
       ]
     }
