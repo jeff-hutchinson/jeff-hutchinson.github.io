@@ -5,7 +5,6 @@ import { Image } from 'astro:assets';
 // Import images from assets directory for Astro optimization
 import heroImg from '../assets/hero.jpg';
 import honeyImg from '../assets/honey-jar.jpg';
-import candleImg from '../assets/candle.jpg';
 import suppliesImg from '../assets/covers.jpg';
 ---
 
@@ -42,18 +41,6 @@ import suppliesImg from '../assets/covers.jpg';
       </div>
       
       <!-- Card 2 -->
-      <div class="product-card">
-        <a href="/products/candles" class="card-img-wrapper" tabindex="-1">
-          <Image src={candleImg} alt="Beeswax & Candles" class="card-img" height={400} />
-        </a>
-        <div class="card-content">
-          <h3>Beeswax & Candles</h3>
-          <p>Hand-poured beeswax candles that naturally purify your home's air.</p>
-          <a href="/products/candles" class="btn-primary">View Products</a>
-        </div>
-      </div>
-      
-      <!-- Card 3 -->
       <div class="product-card">
         <a href="/products/woodenware" class="card-img-wrapper" tabindex="-1">
           <Image src={suppliesImg} alt="Wooden beehives painted in pastel colors in a snowy field" class="card-img" height={400} />
@@ -137,7 +124,9 @@ import suppliesImg from '../assets/covers.jpg';
 
   @media (min-width: 768px) {
     .products-grid {
-      grid-template-columns: repeat(3, 1fr); /* Desktop: 3 columns */
+      grid-template-columns: repeat(2, 1fr); /* Desktop: 2 columns */
+      max-width: 900px;
+      margin: 0 auto;
     }
   }
 

@@ -24,6 +24,8 @@ export function getStaticPaths() {
 const { category } = Astro.params;
 const { categoryData, products } = Astro.props;
 
+const isWoodenwareComingSoon = category.toLowerCase() === 'woodenware';
+
 // Formatting the title cleanly (e.g., 'woodenware' -> 'Woodenware')
 const title = category.charAt(0).toUpperCase() + category.slice(1);
 
@@ -48,12 +50,30 @@ const heroImagePromise = localImages[heroImageUrl];
     </div>
     <div class="hero-content">
       <h1>{title}</h1>
-      <p>{categoryData.header}</p>
+      <p>
+        {isWoodenwareComingSoon
+          ? 'Coming soon — new supplier and lower prices on the way.'
+          : categoryData.header}
+      </p>
     </div>
   </section>
 
   <section class="products-grid wrapper">
-    {products.length > 0 ? (
+    {isWoodenwareComingSoon ? (
+      <div class="coming-soon-notice">
+        <h2>Coming Soon</h2>
+        <p>
+          We are currently transitioning our beekeeping supplies to a new online storefront and partnering with a new supplier.
+          Because we will no longer be building every piece by hand in-house, you can expect <strong>much lower prices</strong> when our woodenware lineup returns!
+        </p>
+        <p class="coming-soon-contact">
+          Have questions in the meantime? Reach out at{' '}
+          <a href="mailto:info@laurievillefarms.com">info@laurievillefarms.com</a> or call{' '}
+          <a href="tel:8104746639">(810) 47-HONEY</a>.
+        </p>
+        <a href="/" class="btn-coming-soon">Return Home</a>
+      </div>
+    ) : products.length > 0 ? (
       <div class="grid-container">
         {products.map(product => (
           <ProductCard product={product} />
@@ -148,5 +168,65 @@ const heroImagePromise = localImages[heroImageUrl];
     border-radius: 8px;
     color: var(--color-charcoal, #212121);
     font-style: italic;
+  }
+
+  .coming-soon-notice {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: #ffffff;
+    border-top: 4px solid var(--color-gold, #E8A50E);
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    color: var(--color-charcoal, #212121);
+  }
+
+  .coming-soon-notice h2 {
+    font-family: var(--font-serif, "Georgia", serif);
+    font-size: 2.25rem;
+    color: var(--color-charcoal, #212121);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .coming-soon-notice p {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-charcoal, #212121);
+    margin: 0 0 1.25rem 0;
+  }
+
+  .coming-soon-contact a {
+    color: var(--color-charcoal, #212121);
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  .coming-soon-contact a:hover {
+    text-decoration: none;
+  }
+
+  .btn-coming-soon {
+    display: inline-block;
+    margin-top: 0.75rem;
+    background-color: var(--color-charcoal, #212121);
+    color: var(--color-gold, #E8A50E);
+    padding: 0.85rem 1.75rem;
+    border: 2px solid var(--color-charcoal, #212121);
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn-coming-soon:hover {
+    background-color: var(--color-gold, #E8A50E);
+    color: var(--color-charcoal, #212121);
+    transform: translateY(-2px);
   }
 </style>
