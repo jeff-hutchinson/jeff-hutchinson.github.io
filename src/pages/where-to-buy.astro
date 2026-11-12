@@ -67,7 +67,7 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
                     <button 
                       class="map-trigger-btn" 
                       data-store-name={retailer.name} 
-                      data-map-url={`https://maps.google.com/maps?q=${encodeURIComponent(`${retailer.street}, ${retailer.city}, ${retailer.state} ${retailer.zip}`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
+                      data-map-url={`https://maps.google.com/maps?q=${encodeURIComponent(`${retailer.name}, ${retailer.street}, ${retailer.city}, ${retailer.state} ${retailer.zip}`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
                       title={`View ${retailer.name} on map`}
                     >
                       {retailer.name}
