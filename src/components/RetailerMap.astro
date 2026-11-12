@@ -154,6 +154,11 @@ const { retailers } = Astro.props;
         .addTo(map)
         .bindPopup(buildPopupContent(retailer));
 
+      const markerEl = marker.getElement();
+      if (markerEl) {
+        markerEl.setAttribute('aria-label', retailer.name);
+      }
+
       markersByName.set(retailer.name, marker);
       bounds.extend(coords);
     }
