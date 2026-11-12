@@ -154,17 +154,19 @@ const { retailers } = Astro.props;
         .addTo(map)
         .bindPopup(buildPopupContent(retailer));
 
-      const markerEl = marker.getElement();
-      if (markerEl) {
-        markerEl.setAttribute('aria-label', retailer.name);
-      }
-
       markersByName.set(retailer.name, marker);
       bounds.extend(coords);
     }
 
     allBounds = bounds;
     map.fitBounds(bounds, { padding: [40, 40], maxZoom: 13 });
+
+    for (const [name, marker] of markersByName) {
+      const markerEl = marker.getElement();
+      if (markerEl) {
+        markerEl.setAttribute('aria-label', name);
+      }
+    }
 
     const statusEl = document.getElementById('map-status');
     const nearMeBtn = document.getElementById('near-me-btn') as HTMLButtonElement | null;
