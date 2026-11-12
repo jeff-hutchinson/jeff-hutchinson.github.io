@@ -82,9 +82,6 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
                       <strong>Phone:</strong> <a href={`tel:${retailer.phone.replace(/[^\d+]/g, '')}`}>{retailer.phone}</a>
                     </p>
                   )}
-                  <p class="call-ahead-notice">
-                    We recommend calling ahead to ensure they have our specific honey varietals in stock!
-                  </p>
                   {retailer.url && (
                     <a href={retailer.url} target="_blank" rel="noopener noreferrer" class="btn-store-link">
                       Visit Retailer
