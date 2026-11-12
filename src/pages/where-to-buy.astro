@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import retailers from '../data/retailers.json';
 import honeyJarHero from '../assets/honey-jar.jpg';
+import RetailerMap from '../components/RetailerMap.astro';
 
 // Grouping by city dynamically
 const retailersByCity = retailers.reduce((acc, retailer) => {
@@ -39,17 +40,7 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
     <div class="page-layout">
       <!-- Map Column -->
       <div class="map-column">
-        <div class="map-container-wrapper">
-          <iframe 
-            id="retailer-map"
-            src="https://maps.google.com/maps?q=Millington%20and%20Lapeer,%20MI&t=&z=10&ie=UTF8&iwloc=&output=embed"
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Laurieville Farms Retailer Locations Map">
-          </iframe>
-        </div>
+        <RetailerMap retailers={retailers} />
       </div>
 
       <!-- Directory Column -->
@@ -65,9 +56,9 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
                 <div class="store-card">
                   <h4 class="store-name">
                     <button 
+                      type="button"
                       class="map-trigger-btn" 
                       data-store-name={retailer.name} 
-                      data-map-url={`https://maps.google.com/maps?q=${encodeURIComponent(`${retailer.street}, ${retailer.city}, ${retailer.state} ${retailer.zip}`)}&t=&z=15&ie=UTF8&iwloc=&output=embed`} 
                       title={`View ${retailer.name} on map`}
                     >
                       {retailer.name}
@@ -129,11 +120,12 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
           if (!btn) return;
           
           e.preventDefault();
-          const mapUrl = btn.getAttribute('data-map-url');
-          const iframe = document.getElementById('retailer-map');
-          if (iframe && mapUrl) {
-            iframe.src = mapUrl;
-            
+          const storeName = btn.getAttribute('data-store-name');
+          if (storeName) {
+            document.dispatchEvent(
+              new CustomEvent('retailer:select', { detail: { storeName } })
+            );
+
             // Smooth scroll to map on mobile viewports if not already in view
             if (window.innerWidth < 992) {
               const mapWrapper = document.querySelector('.map-container-wrapper');
@@ -239,29 +231,6 @@ const description = "Find where to buy fresh Laurieville Farms honey, handcrafte
       top: 120px; /* Offset for sticky header + spacing on desktop */
       padding: 0;
     }
-  }
-
-  /* Map Column Styling */
-  .map-container-wrapper {
-    width: 100%;
-    height: 280px; /* Mobile first height */
-    border: 2px solid var(--color-charcoal);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    position: relative;
-    z-index: 1; /* Establishes a new stacking context for children, keeping map below sticky nav */
-  }
-
-  @media (min-width: 992px) {
-    .map-container-wrapper {
-      height: 450px; /* Larger map on desktop */
-    }
-  }
-
-  #retailer-map {
-    width: 100%;
-    height: 100%;
   }
 
   /* Directory Column Styling */

@@ -6,7 +6,9 @@
     "state": "MI",
     "zip": "48746",
     "phone": "(989) 871-3518",
-    "url": "https://www.facebook.com/profile.php?id=100063737493508"
+    "url": "https://www.facebook.com/profile.php?id=100063737493508",
+    "lat": 43.2249587,
+    "lng": -83.5245006
   },
   {
     "name": "Dano's on 24 Veggies and more",
@@ -15,7 +17,9 @@
     "state": "MI",
     "zip": "48446",
     "phone": "(810) 285-1052",
-    "url": "https://www.facebook.com/profile.php?id=61578851198458"
+    "url": "https://www.facebook.com/profile.php?id=61578851198458",
+    "lat": 43.1089937,
+    "lng": -83.3086852
   },
   {
     "name": "Nana and Papa's Sweet Shop",
@@ -24,7 +28,9 @@
     "state": "MI",
     "zip": "48423",
     "phone": "(989) 909-3130",
-    "url": "https://www.facebook.com/nanaandpapassweetshop/"
+    "url": "https://www.facebook.com/nanaandpapassweetshop/",
+    "lat": 43.0179079,
+    "lng": -83.5511762
   },
   {
     "name": "Above the Rest Consignment",
@@ -33,6 +39,8 @@
     "state": "MI",
     "zip": "48423",
     "phone": "(810) 214-1940",
-    "url": "https://www.facebook.com/abovetherestconsignment/"
+    "url": "https://www.facebook.com/abovetherestconsignment/",
+    "lat": 43.0507822,
+    "lng": -83.5169011
   }
 ]
